@@ -40,3 +40,71 @@ test('default', () => {
     str: 'str',
   });
 });
+
+test('devDefault versus default presedence', () => {
+  const opts = {
+    str: str({
+      default: 'default',
+      devDefault: 'devDefault',
+    }),
+  };
+  expect(
+    cleanEnv(
+      {
+        NODE_ENV: 'development'
+      },
+      opts
+    )
+  ).toEqual({
+    str: 'devDefault'
+  });
+
+  expect(
+    cleanEnv(
+      {
+        NODE_ENV: 'production'
+      },
+      opts
+    )
+  ).toEqual({
+    str: 'default'
+  });
+})
+
+
+test('parses default values', () => {
+
+  expect(
+    cleanEnv(
+      {},
+      {
+        num: num({
+          default: 0
+        })
+      },
+    )
+  ).toEqual({ num: 0 })
+  expect(
+    cleanEnv(
+      {},
+      {
+        num: num({
+          default: '0' as any
+        })
+      },
+    )
+  ).toEqual({ num: 0 })
+
+
+  expect(() =>
+    cleanEnv(
+      {},
+      {
+        num: num({
+          default: 'not a number' as any
+        })
+      },
+    )
+  ).toThrowError()
+
+})

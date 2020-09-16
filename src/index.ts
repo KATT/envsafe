@@ -14,23 +14,24 @@ function getValueOrError<TValue>({
   validator: ValidatorSpec<TValue>;
   key: string;
 }): TValue | Error {
-  const usingDevDefault = env.NODE_ENV === 'development';
+  const usingDevDefault = env.NODE_ENV !== 'production';
 
-  const raw = env[key];
+  let raw: string | TValue | undefined = env[key];
 
   if (
     raw === undefined &&
     usingDevDefault &&
     validator.devDefault !== undefined
   ) {
-    return validator.devDefault;
+    raw = validator.devDefault;
   }
   if (raw === undefined && validator.default !== undefined) {
-    return validator.default;
+    raw = validator.default;
   }
-  if (typeof raw !== 'string') {
+  if (raw === undefined) {
     return new EnvMissingError();
   }
+
   return validator._parse(raw);
 }
 
@@ -56,5 +57,5 @@ export function cleanEnv<TCleanEnv>(
     throw new Error('Tmp');
   }
 
-  return result;
+  return Object.freeze ? Object.freeze(result) : result
 }

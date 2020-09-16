@@ -29,7 +29,7 @@ export interface Spec<TValue> {
 }
 
 export interface ValidatorSpec<TValue> extends Spec<TValue> {
-  _parse: (input: string) => TValue | EnvMissingError;
+  _parse: (input: string | TValue) => TValue | EnvMissingError;
 }
 
-export type Environment = Record<string, unknown>;
+export type Environment = Record<string, string | undefined>;

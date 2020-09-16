@@ -17,7 +17,7 @@ export class EnvMissingError extends ReferenceError {
 }
 
 export function makeValidator<TValue>(
-  parser: (input: string) => TValue | EnvError
+  parser: (input: string | TValue) => TValue | EnvError
 ): (spec?: Spec<TValue>) => ValidatorSpec<TValue> {
   return (spec = {}) => {
     return {
@@ -28,6 +28,9 @@ export function makeValidator<TValue>(
 }
 
 export const str = makeValidator<string>(input => {
+  if (typeof input !== 'string') {
+    return new EnvError(`Invalid string input: "${input}"`);
+  }
   return input;
 });
 
@@ -38,3 +41,4 @@ export const num = makeValidator<number>(input => {
   }
   return coerced;
 });
+
