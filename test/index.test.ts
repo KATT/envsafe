@@ -58,3 +58,36 @@ test('missing env', () => {
     ================================"
   `);
 });
+
+test('custom reporter', () => {
+  const reporter = jest.fn();
+
+  const mocks = mockExitAndConsole();
+
+  cleanEnv(
+    { foo: 'not bar' },
+    {
+      foo: barParser({}),
+    },
+    { reporter }
+  );
+
+  expect(mocks.mockConsoleError).not.toHaveBeenCalled();
+  expect(mocks.mockExit).not.toHaveBeenCalled();
+
+  expect(reporter.mock.calls).toMatchInlineSnapshot(`
+    Array [
+      Array [
+        Object {
+          "env": Object {
+            "foo": "not bar",
+          },
+          "errors": Object {
+            "foo": [TypeError: Expected 'not bar' to be 'bar'],
+          },
+          "output": Object {},
+        },
+      ],
+    ]
+  `);
+});

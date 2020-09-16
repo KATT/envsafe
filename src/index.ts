@@ -2,7 +2,7 @@ import { EnvMissingError } from './errors';
 import { defaultReporter } from './reporter';
 import { CleanEnvOpts, Environment, Errors, ValidatorSpec } from './types';
 
-type Validators<TCleanEnv> = {
+export type Validators<TCleanEnv> = {
   [K in keyof TCleanEnv]: ValidatorSpec<TCleanEnv[K]>;
 };
 

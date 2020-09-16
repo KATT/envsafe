@@ -1,25 +1,37 @@
-let mockExit: jest.SpyInstance;
-let mockConsoleError: jest.SpyInstance;
+import { cleanEnv } from '../src';
+
+let exit: jest.SpyInstance;
+let consoleError: jest.SpyInstance;
 
 export function mockExitAndConsole() {
-  mockExit = jest.spyOn(process, 'exit').mockImplementationOnce((() => {
+  exit = jest.spyOn(process, 'exit').mockImplementationOnce((() => {
     // do nothing
   }) as any);
 
-  mockConsoleError = jest.spyOn(console, 'error').mockImplementationOnce(() => {
+  consoleError = jest.spyOn(console, 'error').mockImplementationOnce(() => {
     // do nothing
   });
+
+  return { mockExit: exit, mockConsoleError: consoleError };
 }
 export function mockExitAndConsoleWasCalled() {
-  expect(mockExit).toHaveBeenCalledWith(1);
-  expect(mockExit).toHaveBeenCalledTimes(1);
+  expect(exit).toHaveBeenCalledWith(1);
+  expect(exit).toHaveBeenCalledTimes(1);
 
-  expect(mockConsoleError).toHaveBeenCalledTimes(1);
+  expect(consoleError).toHaveBeenCalledTimes(1);
 
-  const consoleMessage = mockConsoleError!.mock.calls[0][0];
+  const consoleMessage = consoleError!.mock.calls[0][0];
 
-  mockConsoleError.mockClear();
-  mockExit!.mockClear();
+  consoleError.mockClear();
+  exit!.mockClear();
 
   return { consoleMessage };
+}
+
+export function expectError(...args: Parameters<typeof cleanEnv>) {
+  mockExitAndConsole();
+  expect(() => cleanEnv(...args)).toThrowError();
+  const res = mockExitAndConsoleWasCalled();
+
+  return res;
 }
