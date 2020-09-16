@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import { env } from '../utils/env'
-// import { env } from '../utils/env';
+// import { env } from '../utils/env'
+import { publicEnv } from '../utils/publicEnv';
 
 export default function Home() {
   return (
@@ -16,7 +16,7 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <code>env.NEXT_PUBLIC_ENV_VARIABLE: {env.NEXT_PUBLIC_ENV_VARIABLE}</code>
+        <code>env.NEXT_PUBLIC_ENV_VARIABLE: {publicEnv.NEXT_PUBLIC_ENV_VARIABLE}</code>
       </main>
 
       <footer className={styles.footer}>
