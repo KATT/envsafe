@@ -1,4 +1,4 @@
-import { cleanEnv, str } from "envsafe";
+import { cleanEnv, str } from "../../../";
 
 
 const publicEnvVars = {

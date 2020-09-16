@@ -1,11 +1,10 @@
-import { cleanEnv, str } from "envsafe";
+import { cleanEnv, str } from '../../..'
 import { publicEnv } from "./publicEnv";
 
 export const serverEnv = {
   ...publicEnv,
   ...cleanEnv(process.env, {
     ENV_VARIABLE: str({
-      default: process.env.ENV_VARIABLE,
     })
   })
 }
