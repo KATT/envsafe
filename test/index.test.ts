@@ -50,9 +50,13 @@ test('custom parser error', () => {
 
 test('missing env', () => {
   mockExitAndConsole();
-  expect(() => cleanEnv({}, { num: num() })).toThrowErrorMatchingInlineSnapshot(
-    `"Invalid/missing environment variables: num"`
-  );
+  expect(() => cleanEnv({}, { num: num() }))
+    .toThrowErrorMatchingInlineSnapshot(`
+"================================
+💨 Missing environment variables:
+    num: Missing value for num
+================================"
+`);
 
   const { consoleMessage } = mockExitAndConsoleWasCalled();
   expect(consoleMessage).toMatchInlineSnapshot(`

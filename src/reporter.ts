@@ -41,10 +41,9 @@ export function defaultReporter<TCleanEnv>(opts: ReporterOpts<TCleanEnv>) {
   if (typeof process !== 'undefined' && process?.exit) {
     process.exit(1);
   }
+  if (typeof window !== 'undefined' && window?.alert) {
+    window.alert(text);
+  }
 
-  throw new Error(
-    `Invalid/missing environment variables: ${Object.keys(opts.errors).join(
-      ', '
-    )}`
-  );
+  throw new Error(text);
 }
