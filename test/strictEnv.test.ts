@@ -9,6 +9,7 @@ test('strictEnv', () => {
       foo: str(),
     }
   );
+  expect(JSON.stringify(env)).toMatchInlineSnapshot(`"{\\"foo\\":\\"bar\\"}"`);
   expect(env.foo).toBe('bar');
 
   expect(() => (env as any).no).toThrowErrorMatchingInlineSnapshot(
@@ -21,4 +22,10 @@ test('strictEnv', () => {
   );
 
   expect(env.foo).toBe('bar');
+
+  expect(env.hasOwnProperty('foo')).toBe(true);
+
+  expect(() => (env as any).length).not.toThrow();
+  expect(() => (env as any).__esModule).not.toThrow();
+  expect(() => (env as any).then).not.toThrow();
 });

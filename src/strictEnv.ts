@@ -5,6 +5,7 @@ const inspectables = [
   'length',
   'inspect',
   'hasOwnProperty',
+  'toJSON',
   Symbol.toStringTag,
   Symbol.iterator,
 
