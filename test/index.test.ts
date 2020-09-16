@@ -1,9 +1,10 @@
 import { cleanEnv } from '../src';
 import { EnvError, makeValidator, num } from '../src/validators';
+import { mockExitAndConsole, mockExitAndConsoleWasCalled } from './__helpers'
 
 const barParser = makeValidator<'bar'>(input => {
   if (input !== 'bar') {
-    throw new EnvError(`Expected '${input}' to be 'bar'`);
+    return new EnvError(`Expected '${input}' to be 'bar'`);
   }
   return 'bar';
 });
@@ -20,6 +21,11 @@ test('custom parser', () => {
     foo: 'bar',
   });
 
+});
+
+test('custom parser error', () => {
+  mockExitAndConsole()
+
   expect(() =>
     cleanEnv(
       { foo: 'not bar' },
@@ -28,8 +34,12 @@ test('custom parser', () => {
       }
     )
   ).toThrowError();
-});
+
+  mockExitAndConsoleWasCalled()
+})
 
 test('missing env', () => {
+  mockExitAndConsole()
   expect(() => cleanEnv({}, { num: num() })).toThrowError();
+  mockExitAndConsoleWasCalled()
 });

@@ -1,5 +1,7 @@
 import { cleanEnv } from '../src';
 import { num, str } from '../src/validators';
+import { mockExitAndConsole, mockExitAndConsoleWasCalled } from './__helpers';
+
 
 test('devDefault', () => {
   expect(
@@ -95,7 +97,10 @@ test('parses default values', () => {
     )
   ).toEqual({ num: 0 })
 
+})
 
+test('fails when default values are wrong', () => {
+  mockExitAndConsole()
   expect(() =>
     cleanEnv(
       {},
@@ -106,5 +111,5 @@ test('parses default values', () => {
       },
     )
   ).toThrowError()
-
+  mockExitAndConsoleWasCalled()
 })

@@ -1,5 +1,6 @@
 import { cleanEnv } from '../src';
 import { num } from '../src/validators';
+import { mockExitAndConsole, mockExitAndConsoleWasCalled } from './__helpers';
 
 describe('num', () => {
   test('happy', () => {
@@ -9,7 +10,12 @@ describe('num', () => {
     });
   });
   test('sad', () => {
+    mockExitAndConsole()
     expect(() => cleanEnv({}, { num: num() })).toThrowError();
+    mockExitAndConsoleWasCalled()
+
+    mockExitAndConsole()
     expect(() => cleanEnv({ num: 'string' }, { num: num() })).toThrowError();
+    mockExitAndConsoleWasCalled()
   });
 });

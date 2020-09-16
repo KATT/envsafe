@@ -1,4 +1,5 @@
-import { Environment, ValidatorSpec } from './types';
+import { defaultReporter } from './reporter';
+import { CleanEnvOpts, Environment, Errors, ValidatorSpec } from './types';
 import { EnvMissingError } from './validators';
 
 type Validators<TCleanEnv> = {
@@ -29,7 +30,7 @@ function getValueOrError<TValue>({
     raw = validator.default;
   }
   if (raw === undefined) {
-    return new EnvMissingError();
+    return new EnvMissingError(`Missing value for ${key}`);
   }
 
   return validator._parse(raw);
@@ -37,10 +38,11 @@ function getValueOrError<TValue>({
 
 export function cleanEnv<TCleanEnv>(
   env: Environment,
-  validators: Validators<TCleanEnv>
+  validators: Validators<TCleanEnv>,
+  { reporter = defaultReporter }: CleanEnvOpts<TCleanEnv> = {},
 ): Readonly<TCleanEnv> {
-  const errors: Record<string, Error | undefined> = {};
-  const result = {} as TCleanEnv;
+  const errors: Errors = {};
+  const output = {} as TCleanEnv;
 
   for (const key in validators) {
     const validator = validators[key];
@@ -49,13 +51,13 @@ export function cleanEnv<TCleanEnv>(
     if (resolved instanceof Error) {
       errors[key] = resolved;
     } else {
-      result[key] = resolved;
+      output[key] = resolved;
     }
   }
 
   if (Object.keys(errors).length) {
-    throw new Error('Tmp');
+    reporter({ errors, output, env })
   }
 
-  return Object.freeze ? Object.freeze(result) : result
+  return Object.freeze ? Object.freeze(output) : output
 }

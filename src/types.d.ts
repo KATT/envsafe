@@ -33,3 +33,18 @@ export interface ValidatorSpec<TValue> extends Spec<TValue> {
 }
 
 export type Environment = Record<string, string | undefined>;
+
+export type Errors = Record<string, Error>;
+
+
+export type ReporterOpts<TCleanEnv> {
+  env: Environment;
+  output: Partial<TCleanEnv>;
+  errors: Errors;
+}
+
+export type Reporter<TCleanEnv> = (opts: ReporterOpts<TCleanEnv>) => void;
+
+export type CleanEnvOpts<TCleanEnv> = {
+  reporter?: Reporter<TCleanEnv>;
+}
