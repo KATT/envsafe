@@ -1,12 +1,12 @@
-export class EnvError extends TypeError {
+export class InvalidEnvError extends TypeError {
   constructor(message?: string) {
     super(message);
-    Object.setPrototypeOf(this, EnvError.prototype);
+    Object.setPrototypeOf(this, InvalidEnvError.prototype);
   }
 }
 
 export const invalidEnvError = (type: string, input: unknown) =>
-  new EnvError(`Invalid ${type} input: "${input}"`);
+  new InvalidEnvError(`Invalid ${type} input: "${input}"`);
 
 export class EnvMissingError extends ReferenceError {
   constructor(message?: string) {

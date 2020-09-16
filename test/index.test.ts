@@ -1,5 +1,5 @@
 import { cleanEnv } from '../src';
-import { EnvError } from '../src/errors';
+import { InvalidEnvError } from '../src/errors';
 import { makeValidator, num, str } from '../src/validators';
 import {
   expectError,
@@ -9,7 +9,7 @@ import {
 
 const barParser = makeValidator<'bar'>(input => {
   if (input !== 'bar') {
-    throw new EnvError(`Expected '${input}' to be 'bar'`);
+    throw new InvalidEnvError(`Expected '${input}' to be 'bar'`);
   }
   return 'bar';
 });

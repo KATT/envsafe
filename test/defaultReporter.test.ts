@@ -1,9 +1,9 @@
-import { EnvError, EnvMissingError } from '../src/errors';
+import { EnvMissingError, InvalidEnvError } from '../src/errors';
 import { defaultReporterText } from '../src/reporter';
 
 test('reporter', () => {
   const errors = {
-    foo: new EnvError('invalid'),
+    foo: new InvalidEnvError('invalid'),
     bar: new EnvMissingError('missing'),
     zoo: new EnvMissingError('missing'),
   };

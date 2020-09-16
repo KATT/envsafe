@@ -1,4 +1,4 @@
-import { EnvError, EnvMissingError } from './errors';
+import { InvalidEnvError, EnvMissingError } from './errors';
 import { defaultReporter } from './reporter';
 import {
   CleanEnvOpts,
@@ -38,7 +38,7 @@ function getValueOrThrow<TValue>({
   const value = validator._parse(raw);
 
   if (validator.choices && !validator.choices.includes(value)) {
-    throw new EnvError(
+    throw new InvalidEnvError(
       `Value "${value}" not in choices [${validator.choices}]`
     );
   }
