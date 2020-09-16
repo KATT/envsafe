@@ -1,3 +1,5 @@
+[![Maintainability](https://api.codeclimate.com/v1/badges/c17614f0d80b810e47a6/maintainability)](https://codeclimate.com/github/KATT/envsafe/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/c17614f0d80b810e47a6/test_coverage)](https://codeclimate.com/github/KATT/envsafe/test_coverage)
+
 # TSDX User Guide
 
 Congrats! You just saved yourself hours of work by bootstrapping this project with TSDX. Let’s get you oriented with what’s here and how to use it.
