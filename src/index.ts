@@ -6,7 +6,7 @@ type Validators<TCleanEnv> = {
   [K in keyof TCleanEnv]: ValidatorSpec<TCleanEnv[K]>;
 };
 
-function getValueOrError<TValue>({
+function getValueOrThrow<TValue>({
   env,
   validator,
   key,
@@ -14,7 +14,7 @@ function getValueOrError<TValue>({
   env: Environment;
   validator: ValidatorSpec<TValue>;
   key: string;
-}): TValue | Error {
+}): TValue {
   const usingDevDefault = env.NODE_ENV !== 'production';
 
   let raw: string | TValue | undefined = env[key];
@@ -30,7 +30,7 @@ function getValueOrError<TValue>({
     raw = validator.default;
   }
   if (raw === undefined) {
-    return new EnvMissingError(`Missing value for ${key}`);
+    throw new EnvMissingError(`Missing value for ${key}`);
   }
 
   return validator._parse(raw);
@@ -46,12 +46,11 @@ export function cleanEnv<TCleanEnv>(
 
   for (const key in validators) {
     const validator = validators[key];
-    const resolved = getValueOrError({ env, validator, key });
-
-    if (resolved instanceof Error) {
-      errors[key] = resolved;
-    } else {
+    try {
+      const resolved = getValueOrThrow({ env, validator, key });
       output[key] = resolved;
+    } catch (err) {
+      errors[key] = err;
     }
   }
 

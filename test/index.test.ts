@@ -5,7 +5,7 @@ import { mockExitAndConsole, mockExitAndConsoleWasCalled } from './__helpers';
 
 const barParser = makeValidator<'bar'>(input => {
   if (input !== 'bar') {
-    return new EnvError(`Expected '${input}' to be 'bar'`);
+    throw new EnvError(`Expected '${input}' to be 'bar'`);
   }
   return 'bar';
 });

@@ -2,7 +2,7 @@ import { EnvError } from './errors';
 import { Spec, ValidatorSpec } from './types';
 
 export function makeValidator<TValue>(
-  parser: (input: string | TValue) => TValue | EnvError
+  parser: (input: string | TValue) => TValue
 ): (spec?: Spec<TValue>) => ValidatorSpec<TValue> {
   return (spec = {}) => {
     return {
@@ -14,7 +14,7 @@ export function makeValidator<TValue>(
 
 export const str = makeValidator<string>(input => {
   if (typeof input !== 'string') {
-    return new EnvError(`Invalid string input: "${input}"`);
+    throw new EnvError(`Invalid string input: "${input}"`);
   }
   return input;
 });
@@ -22,7 +22,7 @@ export const str = makeValidator<string>(input => {
 export const num = makeValidator<number>(input => {
   const coerced = +input;
   if (Number.isNaN(coerced)) {
-    return new EnvError(`Invalid number input: "${input}"`);
+    throw new EnvError(`Invalid number input: "${input}"`);
   }
   return coerced;
 });
