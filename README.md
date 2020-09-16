@@ -2,20 +2,42 @@
 
 # `env`safe 🔒
 
-Mostly based on the great project [envalid](https://github.com/af/envalid), but with some key differences
+Mostly based on the great project [envalid](https://github.com/af/envalid), but with some minor differences
 
-- Rewrite in 100% TypeScript
+- Rewritten in 100% TypeScript
 - Always strict - only get the props you have defined
-- No dependencies - smaller bundle for browser/isomorphic
+- No dependencies - smaller bundle for browser/isomorphic apps
 
-## API
+## How to use
+
+Works the same in the browser and in node.
 
 ```ts
+import { str, cleanEnv, url } from 'envsafe';
+
+export const env = cleanEnv(process.env, {
+  NODE_ENV: str({
+    devDefault: 'development',
+  }),
+  REACT_API_URL: url({
+    devDefault: 'https://example.com/graphql',
+  }),
+  REACT_APP_AUTH0_CLIENT_ID: str({
+    devDefault: 'xxxxx',
+  }),
+  REACT_APP_AUTH0_DOMAIN: str({
+    devDefault: 'xxxxx.auth0.com',
+  }),
+  REACT_APP_SEGMENT_ID: str({
+    devDefault: 'xxxxx',
+  }),
+  REACT_APP_BUGSNAG_API_KEY: str({
+    default: 'xxxxx',
+  }),
+});
 ```
 
-## Commands
-
-TSDX scaffolds your new library inside `/src`.
+## Running the project locally
 
 To run TSDX, use:
 
@@ -31,26 +53,11 @@ To run tests, use `npm test` or `yarn test`.
 
 ## Configuration
 
-Code quality is set up for you with `prettier`, `husky`, and `lint-staged`. Adjust the respective fields in `package.json` accordingly.
+Code quality is set up for you with `prettier`, `husky`, and `lint-staged`.
 
 ### Jest
 
 Jest tests are set up to run with `npm test` or `yarn test`.
-
-#### Setup Files
-
-This is the folder structure we set up for you:
-
-```txt
-/src
-  index.tsx       # EDIT THIS
-/test
-  blah.test.tsx   # EDIT THIS
-.gitignore
-package.json
-README.md         # EDIT THIS
-tsconfig.json
-```
 
 ### Rollup
 
@@ -58,7 +65,7 @@ TSDX uses [Rollup](https://rollupjs.org) as a bundler and generates multiple rol
 
 ### TypeScript
 
-`tsconfig.json` is set up to interpret `dom` and `esnext` types, as well as `react` for `jsx`. Adjust according to your needs.
+`tsconfig.json` is set up to interpret `dom` and `esnext` types.
 
 ## Continuous Integration
 
@@ -94,13 +101,3 @@ The appropriate paths are configured in `package.json` and `dist/index.js` accor
 ## Named Exports
 
 Per Palmer Group guidelines, [always use named exports.](https://github.com/palmerhq/typescript#exports) Code split inside your React app instead of your React library.
-
-## Including Styles
-
-There are many ways to ship styles, including with CSS-in-JS. TSDX has no opinion on this, configure how you like.
-
-For vanilla CSS, you can include it at the root directory and add it to the `files` section in your `package.json`, so that it can be imported separately by your users and run through their bundler's loader.
-
-## Publishing to NPM
-
-We recommend using [np](https://github.com/sindresorhus/np).
