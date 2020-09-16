@@ -1,7 +1,7 @@
 import { cleanEnv, str } from "envsafe";
 
 
-export const publicEnvVars = {
+const publicEnvVars = {
   NEXT_PUBLIC_ENV_VARIABLE: str({
     default: process.env.NEXT_PUBLIC_ENV_VARIABLE,
   }),
