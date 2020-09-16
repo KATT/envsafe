@@ -1,5 +1,3 @@
-import { EnvMissingError } from './errors';
-
 export interface Spec<TValue> {
   /**
    * An Array that lists the admissable parsed values for the env var.
@@ -46,4 +44,8 @@ export type Reporter<TCleanEnv> = (opts: ReporterOpts<TCleanEnv>) => void;
 
 export type CleanEnvOpts<TCleanEnv> = {
   reporter?: Reporter<TCleanEnv>;
+};
+
+export type Validators<TCleanEnv> = {
+  [K in keyof TCleanEnv]: ValidatorSpec<TCleanEnv[K]>;
 };
