@@ -16,7 +16,7 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <code>env.NEXT_PUBLIC_ENV_VARIABLE: {publicEnv.NEXT_PUBLIC_ENV_VARIABLE}</code>
+        <code>Environment: {<pre>{JSON.stringify(publicEnv, null, 4)}</pre>}</code>
       </main>
 
       <footer className={styles.footer}>

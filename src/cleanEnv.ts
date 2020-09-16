@@ -32,7 +32,7 @@ function getValueOrThrow<TValue>({
     raw = validator.default;
   }
   if (raw === undefined) {
-    throw new MissingEnvError(`Missing value for ${key}`);
+    throw new MissingEnvError(`Missing value`);
   }
 
   const value = validator._parse(raw);
