@@ -80,7 +80,6 @@ export const url = makeValidator<URL>(input => {
 export const json = makeValidator<unknown>(input => {
   try {
     if (typeof input !== 'string') {
-      console.log('parsing not a string', input);
       return input;
     }
 
