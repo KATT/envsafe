@@ -66,12 +66,10 @@ export const port = makeValidator<number>(input => {
   return coerced;
 });
 
-export const url = makeValidator<URL>(input => {
+export const url = makeValidator<string>(input => {
   try {
-    if (input instanceof URL) {
-      return input;
-    }
-    return new URL(input);
+    new URL(input); // validate url
+    return input;
   } catch (_) {
     throw new EnvError(`Invalid url: "${input}"`);
   }

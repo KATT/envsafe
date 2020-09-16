@@ -37,12 +37,7 @@ test('url', () => {
 
   const parsed = cleanEnv({ url: 'https://example.com?query=test' }, opts);
 
-  expect(parsed.url).toMatchInlineSnapshot(`"https://example.com/?query=test"`);
-
-  expect(parsed.url.protocol).toMatchInlineSnapshot(`"https:"`);
-  expect(parsed.url.hostname).toMatchInlineSnapshot(`"example.com"`);
-  expect(parsed.url.pathname).toMatchInlineSnapshot(`"/"`);
-  expect(parsed.url.search).toMatchInlineSnapshot(`"?query=test"`);
+  expect(parsed.url).toMatchInlineSnapshot(`"https://example.com?query=test"`);
 });
 
 test('port', () => {

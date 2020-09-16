@@ -2,7 +2,16 @@
 
 # `env`safe 🔒
 
-Mostly based on the great project [envalid](https://github.com/af/envalid).
+Mostly based on the great project [envalid](https://github.com/af/envalid), but with some key differences
+
+- Rewrite in 100% TypeScript
+- Always strict - only get the props you have defined
+- No dependencies - smaller bundle for browser/isomorphic
+
+## API
+
+```ts
+```
 
 ## Commands
 
