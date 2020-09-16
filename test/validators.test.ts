@@ -1,5 +1,5 @@
 import { cleanEnv } from '../src';
-import { num, port, url } from '../src/validators';
+import { json, num, port, url, bool } from '../src/validators';
 import {
   expectError,
   mockExitAndConsole,
@@ -58,4 +58,38 @@ test('port', () => {
       "port": 1,
     }
   `);
+});
+
+test('json', () => {
+  const opts = { json: json() };
+
+  expectError({ json: '' }, opts);
+  expectError({ json: 'undefined' }, opts);
+
+  expect(cleanEnv({ json: 'null' }, opts)).toMatchInlineSnapshot(`
+    Object {
+      "json": null,
+    }
+  `);
+  expect(cleanEnv({ json: '{}' }, opts)).toMatchInlineSnapshot(`
+    Object {
+      "json": Object {},
+    }
+  `);
+});
+
+test('bool', () => {
+  const opts = { bool: bool() };
+  expectError({ bool: 'nah' }, opts);
+
+  expect(cleanEnv({ bool: '1' }, opts).bool).toBe(true);
+  expect(cleanEnv({ bool: 'true' as any }, opts).bool).toBe(true);
+  expect(cleanEnv({ bool: 't' as any }, opts).bool).toBe(true);
+
+  expect(cleanEnv({ bool: 'false' as any }, opts).bool).toBe(false);
+  expect(cleanEnv({ bool: 'f' as any }, opts).bool).toBe(false);
+  expect(cleanEnv({ bool: '0' as any }, opts).bool).toBe(false);
+
+  expect(cleanEnv({ bool: true as any }, opts).bool).toBe(true);
+  expect(cleanEnv({ bool: false as any }, opts).bool).toBe(false);
 });
