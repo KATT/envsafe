@@ -40,3 +40,12 @@ jobs:
         run: yarn build
         env:
           CI: true
+
+      - name: Publish code coverage
+        uses: paambaati/codeclimate-action@v2.6.0
+        env:
+          CC_TEST_REPORTER_ID: 9d1ce86d55b91864d3cf11c712add541a32587ee2e05da054cb16629f7a6f090
+        with:
+          coverageCommand: echo coverage
+          coverageLocations: |
+            ${{github.workspace}}/coverage/lcov.info:lcov
