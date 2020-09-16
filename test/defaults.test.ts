@@ -2,7 +2,6 @@ import { cleanEnv } from '../src';
 import { num, str } from '../src/validators';
 import { mockExitAndConsole, mockExitAndConsoleWasCalled } from './__helpers';
 
-
 test('devDefault', () => {
   expect(
     cleanEnv(
@@ -53,63 +52,60 @@ test('devDefault versus default presedence', () => {
   expect(
     cleanEnv(
       {
-        NODE_ENV: 'development'
+        NODE_ENV: 'development',
       },
       opts
     )
   ).toEqual({
-    str: 'devDefault'
+    str: 'devDefault',
   });
 
   expect(
     cleanEnv(
       {
-        NODE_ENV: 'production'
+        NODE_ENV: 'production',
       },
       opts
     )
   ).toEqual({
-    str: 'default'
+    str: 'default',
   });
-})
-
+});
 
 test('parses default values', () => {
-
   expect(
     cleanEnv(
       {},
       {
         num: num({
-          default: 0
-        })
-      },
+          default: 0,
+        }),
+      }
     )
-  ).toEqual({ num: 0 })
+  ).toEqual({ num: 0 });
   expect(
     cleanEnv(
       {},
       {
         num: num({
-          default: '0' as any
-        })
-      },
+          default: '0' as any,
+        }),
+      }
     )
-  ).toEqual({ num: 0 })
-
-})
+  ).toEqual({ num: 0 });
+});
 
 test('fails when default values are wrong', () => {
-  mockExitAndConsole()
+  mockExitAndConsole();
   expect(() =>
     cleanEnv(
       {},
       {
         num: num({
-          default: 'not a number' as any
-        })
-      },
+          default: 'not a number' as any,
+        }),
+      }
     )
-  ).toThrowError()
-  mockExitAndConsoleWasCalled()
-})
+  ).toThrowError();
+  mockExitAndConsoleWasCalled();
+});

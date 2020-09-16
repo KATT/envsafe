@@ -39,7 +39,7 @@ function getValueOrError<TValue>({
 export function cleanEnv<TCleanEnv>(
   env: Environment,
   validators: Validators<TCleanEnv>,
-  { reporter = defaultReporter }: CleanEnvOpts<TCleanEnv> = {},
+  { reporter = defaultReporter }: CleanEnvOpts<TCleanEnv> = {}
 ): Readonly<TCleanEnv> {
   const errors: Errors = {};
   const output = {} as TCleanEnv;
@@ -56,8 +56,8 @@ export function cleanEnv<TCleanEnv>(
   }
 
   if (Object.keys(errors).length) {
-    reporter({ errors, output, env })
+    reporter({ errors, output, env });
   }
 
-  return Object.freeze ? Object.freeze(output) : output
+  return Object.freeze ? Object.freeze(output) : output;
 }

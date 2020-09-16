@@ -1,6 +1,6 @@
 import { cleanEnv } from '../src';
 import { EnvError, makeValidator, num } from '../src/validators';
-import { mockExitAndConsole, mockExitAndConsoleWasCalled } from './__helpers'
+import { mockExitAndConsole, mockExitAndConsoleWasCalled } from './__helpers';
 
 const barParser = makeValidator<'bar'>(input => {
   if (input !== 'bar') {
@@ -20,11 +20,10 @@ test('custom parser', () => {
   ).toEqual({
     foo: 'bar',
   });
-
 });
 
 test('custom parser error', () => {
-  mockExitAndConsole()
+  mockExitAndConsole();
 
   expect(() =>
     cleanEnv(
@@ -35,11 +34,11 @@ test('custom parser error', () => {
     )
   ).toThrowError();
 
-  mockExitAndConsoleWasCalled()
-})
+  mockExitAndConsoleWasCalled();
+});
 
 test('missing env', () => {
-  mockExitAndConsole()
+  mockExitAndConsole();
   expect(() => cleanEnv({}, { num: num() })).toThrowError();
-  mockExitAndConsoleWasCalled()
+  mockExitAndConsoleWasCalled();
 });

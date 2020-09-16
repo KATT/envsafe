@@ -12,7 +12,8 @@ test('reporter', () => {
     bar: new EnvMissingError('missing'),
     zoo: new EnvMissingError('missing'),
   };
-  expect(defaultReporterText({ errors, env: {}, output: {} })).toMatchInlineSnapshot(`
+  expect(defaultReporterText({ errors, env: {}, output: {} }))
+    .toMatchInlineSnapshot(`
     "================================
     ❌ Invalid environment variables:
         foo: invalid

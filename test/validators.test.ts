@@ -10,12 +10,12 @@ describe('num', () => {
     });
   });
   test('sad', () => {
-    mockExitAndConsole()
+    mockExitAndConsole();
     expect(() => cleanEnv({}, { num: num() })).toThrowError();
-    mockExitAndConsoleWasCalled()
+    mockExitAndConsoleWasCalled();
 
-    mockExitAndConsole()
+    mockExitAndConsole();
     expect(() => cleanEnv({ num: 'string' }, { num: num() })).toThrowError();
-    mockExitAndConsoleWasCalled()
+    mockExitAndConsoleWasCalled();
   });
 });

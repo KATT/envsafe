@@ -4,7 +4,6 @@ export class EnvError extends TypeError {
   constructor(message?: string) {
     super(message);
     Object.setPrototypeOf(this, EnvError.prototype);
-
   }
 }
 
@@ -41,4 +40,3 @@ export const num = makeValidator<number>(input => {
   }
   return coerced;
 });
-
