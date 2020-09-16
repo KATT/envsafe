@@ -1,4 +1,4 @@
-import { EnvError } from './errors';
+import { invalidEnvError } from './errors';
 import { Spec, ValidatorSpec } from './types';
 const EMAIL_REGEX = /^[^@\s]+@[^@\s]+\.[^@\s]+$/; // intentionally non-exhaustive
 
@@ -26,20 +26,20 @@ export const bool = makeValidator<boolean>(input => {
     case '0':
       return false;
     default:
-      throw new EnvError(`Invalid boolean input: "${input}"`);
+      throw invalidEnvError('str', input);
   }
 });
 
 export const str = makeValidator<string>(input => {
   if (typeof input !== 'string') {
-    throw new EnvError(`Invalid string input: "${input}"`);
+    throw invalidEnvError('str', input);
   }
   return input;
 });
 
 export const email = makeValidator<string>(input => {
   if (!EMAIL_REGEX.test(input)) {
-    throw new EnvError(`Invalid email address: "${input}"`);
+    throw invalidEnvError('email', input);
   }
   return input;
 });
@@ -47,7 +47,7 @@ export const email = makeValidator<string>(input => {
 export const num = makeValidator<number>(input => {
   const coerced = +input;
   if (Number.isNaN(coerced)) {
-    throw new EnvError(`Invalid number input: "${input}"`);
+    throw invalidEnvError('num', input);
   }
   return coerced;
 });
@@ -61,7 +61,7 @@ export const port = makeValidator<number>(input => {
     coerced < 1 ||
     coerced > 65535
   ) {
-    throw new EnvError(`Invalid port input: "${input}"`);
+    throw invalidEnvError('port', input);
   }
   return coerced;
 });
@@ -71,7 +71,7 @@ export const url = makeValidator<string>(input => {
     new URL(input); // validate url
     return input;
   } catch (_) {
-    throw new EnvError(`Invalid url: "${input}"`);
+    throw invalidEnvError('url', input);
   }
 });
 
@@ -83,6 +83,6 @@ export const json = makeValidator<unknown>(input => {
 
     return JSON.parse(input) as unknown;
   } catch (e) {
-    throw new EnvError(`Invalid json: "${input}"`);
+    throw invalidEnvError('json', input);
   }
 });
