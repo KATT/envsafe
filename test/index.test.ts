@@ -1,5 +1,6 @@
 import { cleanEnv } from '../src';
-import { EnvError, makeValidator, num } from '../src/validators';
+import { EnvError } from '../src/errors';
+import { makeValidator, num } from '../src/validators';
 import { mockExitAndConsole, mockExitAndConsoleWasCalled } from './__helpers';
 
 const barParser = makeValidator<'bar'>(input => {

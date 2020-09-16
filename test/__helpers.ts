@@ -2,9 +2,6 @@ let mockExit: jest.SpyInstance | null = null;
 let mockConsoleError: jest.SpyInstance | null = null;
 
 export function mockExitAndConsole() {
-  if (mockExit || mockConsoleError) {
-    throw new Error('Already called');
-  }
   mockExit = jest.spyOn(process, 'exit').mockImplementationOnce((() => {
     // do nothing
   }) as any);

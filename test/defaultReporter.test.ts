@@ -1,9 +1,4 @@
-// const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {
-
-// });
-// myFunc(condition);
-// expect(mockExit).toHaveBeenCalledWith(ERROR_CODE);
-import { EnvError, EnvMissingError } from '../src/validators';
+import { EnvError, EnvMissingError } from '../src/errors';
 import { defaultReporterText } from '../src/reporter';
 
 test('reporter', () => {

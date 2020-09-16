@@ -1,5 +1,5 @@
+import { EnvMissingError } from './errors';
 import { ReporterOpts } from './types';
-import { EnvMissingError } from './validators';
 
 export function defaultReporterText<TCleanEnv>({
   errors,

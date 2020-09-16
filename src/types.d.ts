@@ -1,4 +1,4 @@
-import { EnvMissingError } from './validators';
+import { EnvMissingError } from './errors';
 
 export interface Spec<TValue> {
   /**

@@ -1,19 +1,5 @@
+import { EnvError } from './errors';
 import { Spec, ValidatorSpec } from './types';
-
-export class EnvError extends TypeError {
-  constructor(message?: string) {
-    super(message);
-    Object.setPrototypeOf(this, EnvError.prototype);
-  }
-}
-
-export class EnvMissingError extends ReferenceError {
-  constructor(message?: string) {
-    super(message);
-
-    Object.setPrototypeOf(this, EnvMissingError.prototype);
-  }
-}
 
 export function makeValidator<TValue>(
   parser: (input: string | TValue) => TValue | EnvError
