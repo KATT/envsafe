@@ -29,9 +29,9 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "zenv",
+  "name": "envsafe",
   "author": "KATT",
-  "module": "dist/zenv.esm.js",
+  "module": "dist/envsafe.esm.js",
   "devDependencies": {
     "husky": "^4.3.0",
     "tsdx": "^0.13.3",
