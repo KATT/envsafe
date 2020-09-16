@@ -1,4 +1,4 @@
-import { EnvMissingError } from './errors';
+import { MissingEnvError } from './errors';
 import { ReporterOpts } from './types';
 
 export function defaultReporterText<TCleanEnv>({
@@ -11,7 +11,7 @@ export function defaultReporterText<TCleanEnv>({
 
   for (const key of keys) {
     const err = errors[key];
-    if (err instanceof EnvMissingError) {
+    if (err instanceof MissingEnvError) {
       missing.push(`    ${key}: ${err.message || 'required'}`);
     } else {
       invalids.push(`    ${key}: ${err.message || 'invalid'}`);

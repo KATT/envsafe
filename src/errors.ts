@@ -8,10 +8,10 @@ export class InvalidEnvError extends TypeError {
 export const invalidEnvError = (type: string, input: unknown) =>
   new InvalidEnvError(`Invalid ${type} input: "${input}"`);
 
-export class EnvMissingError extends ReferenceError {
+export class MissingEnvError extends ReferenceError {
   constructor(message?: string) {
     super(message);
 
-    Object.setPrototypeOf(this, EnvMissingError.prototype);
+    Object.setPrototypeOf(this, MissingEnvError.prototype);
   }
 }

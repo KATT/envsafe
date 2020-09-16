@@ -1,11 +1,11 @@
-import { EnvMissingError, InvalidEnvError } from '../src/errors';
+import { InvalidEnvError, MissingEnvError } from '../src/errors';
 import { defaultReporterText } from '../src/reporter';
 
 test('reporter', () => {
   const errors = {
     foo: new InvalidEnvError('invalid'),
-    bar: new EnvMissingError('missing'),
-    zoo: new EnvMissingError('missing'),
+    bar: new MissingEnvError('missing'),
+    zoo: new MissingEnvError('missing'),
   };
   expect(defaultReporterText({ errors, env: {}, output: {} }))
     .toMatchInlineSnapshot(`

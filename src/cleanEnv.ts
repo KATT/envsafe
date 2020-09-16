@@ -1,4 +1,4 @@
-import { InvalidEnvError, EnvMissingError } from './errors';
+import { InvalidEnvError, MissingEnvError } from './errors';
 import { defaultReporter } from './reporter';
 import {
   CleanEnvOpts,
@@ -32,7 +32,7 @@ function getValueOrThrow<TValue>({
     raw = validator.default;
   }
   if (raw === undefined) {
-    throw new EnvMissingError(`Missing value for ${key}`);
+    throw new MissingEnvError(`Missing value for ${key}`);
   }
 
   const value = validator._parse(raw);
