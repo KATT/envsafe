@@ -1,4 +1,4 @@
-import { cleanEnv, str } from 'envsafe'
+import { cleanEnv, str } from '../../../'
 import { publicEnv } from "./publicEnv";
 
 export const serverEnv = {
