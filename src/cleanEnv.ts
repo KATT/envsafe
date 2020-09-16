@@ -1,4 +1,4 @@
-import { EnvMissingError } from './errors';
+import { EnvError, EnvMissingError } from './errors';
 import { defaultReporter } from './reporter';
 import {
   CleanEnvOpts,
@@ -35,7 +35,15 @@ function getValueOrThrow<TValue>({
     throw new EnvMissingError(`Missing value for ${key}`);
   }
 
-  return validator._parse(raw);
+  const value = validator._parse(raw);
+
+  if (validator.choices && !validator.choices.includes(value)) {
+    throw new EnvError(
+      `Value "${value}" not in choices [${validator.choices}]`
+    );
+  }
+
+  return value;
 }
 
 export function cleanEnv<TCleanEnv>(

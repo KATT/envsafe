@@ -1,7 +1,11 @@
 import { cleanEnv } from '../src';
 import { EnvError } from '../src/errors';
-import { makeValidator, num } from '../src/validators';
-import { mockExitAndConsole, mockExitAndConsoleWasCalled } from './__helpers';
+import { makeValidator, num, str } from '../src/validators';
+import {
+  expectError,
+  mockExitAndConsole,
+  mockExitAndConsoleWasCalled,
+} from './__helpers';
 
 const barParser = makeValidator<'bar'>(input => {
   if (input !== 'bar') {
@@ -89,5 +93,22 @@ test('custom reporter', () => {
         },
       ],
     ]
+  `);
+});
+
+test('choices', () => {
+  const opts = {
+    str: str({
+      choices: ['a', 'b'],
+    }),
+  };
+  expect(cleanEnv({ str: 'a' }, opts).str).toBe('a');
+  const res = expectError({ str: 'c' }, opts);
+
+  expect(res.consoleMessage).toMatchInlineSnapshot(`
+    "================================
+    ❌ Invalid environment variables:
+        str: Value \\"c\\" not in choices [a,b]
+    ================================"
   `);
 });

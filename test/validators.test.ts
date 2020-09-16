@@ -1,5 +1,5 @@
 import { cleanEnv } from '../src';
-import { json, num, port, url, bool } from '../src/validators';
+import { json, num, port, url, bool, email } from '../src/validators';
 import {
   expectError,
   mockExitAndConsole,
@@ -92,4 +92,13 @@ test('bool', () => {
 
   expect(cleanEnv({ bool: true as any }, opts).bool).toBe(true);
   expect(cleanEnv({ bool: false as any }, opts).bool).toBe(false);
+});
+
+test('email', () => {
+  const opts = { email: email() };
+
+  expectError({ email: 'nah' }, opts);
+  expect(cleanEnv({ email: 'test@example.com' }, opts).email).toBe(
+    'test@example.com'
+  );
 });
