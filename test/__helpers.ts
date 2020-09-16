@@ -2,9 +2,14 @@ import { cleanEnv } from '../src';
 
 let exit: jest.SpyInstance;
 let consoleError: jest.SpyInstance;
+let alert: jest.SpyInstance;
 
 export function mockExitAndConsole() {
   exit = jest.spyOn(process, 'exit').mockImplementationOnce((() => {
+    // do nothing
+  }) as any);
+
+  alert = jest.spyOn(window, 'alert').mockImplementationOnce((() => {
     // do nothing
   }) as any);
 
@@ -16,7 +21,7 @@ export function mockExitAndConsole() {
 }
 export function mockExitAndConsoleWasCalled() {
   expect(exit).toHaveBeenCalledWith(1);
-  expect(exit).toHaveBeenCalledTimes(1);
+  expect(alert).toHaveBeenCalledTimes(1);
 
   expect(consoleError).toHaveBeenCalledTimes(1);
 
@@ -24,6 +29,7 @@ export function mockExitAndConsoleWasCalled() {
 
   consoleError.mockClear();
   exit!.mockClear();
+  alert!.mockClear();
 
   return { consoleMessage };
 }
