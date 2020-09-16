@@ -14,7 +14,7 @@ export function defaultReporterText<TCleanEnv>({
     if (err instanceof EnvMissingError) {
       missing.push(`    ${key}: ${err.message || 'required'}`);
     } else {
-      invalids.push(`    ${key}: ${err.message || 'required'}`);
+      invalids.push(`    ${key}: ${err.message || 'invalid'}`);
     }
   }
   if (invalids.length) {
