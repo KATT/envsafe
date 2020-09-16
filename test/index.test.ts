@@ -35,11 +35,26 @@ test('custom parser error', () => {
     )
   ).toThrowError();
 
-  mockExitAndConsoleWasCalled();
+  const { consoleMessage } = mockExitAndConsoleWasCalled();
+  expect(consoleMessage).toMatchInlineSnapshot(`
+    "================================
+    ❌ Invalid environment variables:
+        foo: Expected 'not bar' to be 'bar'
+    ================================"
+  `);
 });
 
 test('missing env', () => {
   mockExitAndConsole();
-  expect(() => cleanEnv({}, { num: num() })).toThrowError();
-  mockExitAndConsoleWasCalled();
+  expect(() => cleanEnv({}, { num: num() })).toThrowErrorMatchingInlineSnapshot(
+    `"Invalid/missing environment variables: num"`
+  );
+
+  const { consoleMessage } = mockExitAndConsoleWasCalled();
+  expect(consoleMessage).toMatchInlineSnapshot(`
+    "================================
+    💨 Missing environment variables:
+        num: Missing value for num
+    ================================"
+  `);
 });

@@ -1,5 +1,5 @@
-let mockExit: jest.SpyInstance | null = null;
-let mockConsoleError: jest.SpyInstance | null = null;
+let mockExit: jest.SpyInstance;
+let mockConsoleError: jest.SpyInstance;
 
 export function mockExitAndConsole() {
   mockExit = jest.spyOn(process, 'exit').mockImplementationOnce((() => {
@@ -16,9 +16,10 @@ export function mockExitAndConsoleWasCalled() {
 
   expect(mockConsoleError).toHaveBeenCalledTimes(1);
 
-  mockExit!.mockRestore();
-  mockExit = null;
+  const consoleMessage = mockConsoleError!.mock.calls[0][0];
 
-  mockConsoleError!.mockRestore();
-  mockConsoleError = null;
+  mockConsoleError.mockClear();
+  mockExit!.mockClear();
+
+  return { consoleMessage };
 }
