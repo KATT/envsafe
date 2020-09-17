@@ -1,4 +1,5 @@
 import { InvalidEnvError, MissingEnvError } from './errors';
+import { freezeObject } from './freezeObject';
 import { defaultReporter } from './reporter';
 import {
   EnvsafeOpts,
@@ -51,6 +52,7 @@ export function envsafe<TCleanEnv>(
   {
     reporter = defaultReporter,
     env = process.env,
+    strict = false,
   }: EnvsafeOpts<TCleanEnv> = {},
 ): Readonly<TCleanEnv> {
   const errors: Errors = {};
@@ -70,5 +72,5 @@ export function envsafe<TCleanEnv>(
     reporter({ errors, output, env });
   }
 
-  return Object.freeze ? Object.freeze(output) : output;
+  return strict ? freezeObject(output, env) : output;
 }

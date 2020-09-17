@@ -1,4 +1,8 @@
 {
   "editor.formatOnSave": true,
-  "files.eol": "\n"
+  "files.eol": "\n",
+
+  "markdown.extension.toc.omittedFromToc": {
+    "README.md": ["# `env`safe 🔒"]
+  }
 }

@@ -45,11 +45,24 @@ export type ReporterOpts<TCleanEnv> = {
   errors: Errors;
 };
 
-export type Reporter<TCleanEnv> = (opts: ReporterOpts<TCleanEnv>) => void;
+export type ReporterFn<TCleanEnv> = (opts: ReporterOpts<TCleanEnv>) => void;
 
 export type EnvsafeOpts<TCleanEnv> = {
-  reporter?: Reporter<TCleanEnv>;
+  /**
+   * Override the built-in reporter
+   * @default `defaultReporter`
+   */
+  reporter?: ReporterFn<TCleanEnv>;
+  /**
+   * @default process.env
+   */
   env?: Environment;
+  /**
+   * Wrap the returned object in a `Proxy` which throws an error whenever an attempt is made to access an undefined property
+   * Useful if you're not using TypeScript
+   * @default false
+   */
+  strict?: boolean;
 };
 
 export type Validators<TCleanEnv> = {

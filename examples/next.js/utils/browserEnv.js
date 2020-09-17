@@ -11,5 +11,8 @@ export const browserEnv = envsafe({
     devDefault: 'with default',
     input: process.env.NEXT_PUBLIC_WITH_DEFAULT,
   }),
+}, {
+  // As we're using plain JS, it's useful to use strict mode which prevents accessing undefined props
+  strict: true
 })
 

@@ -2,6 +2,8 @@
 
 # `env`safe 🔒
 
+Validate access to environment variables and parse them to the right type.
+
 ```
 ========================================
 ❌ Invalid environment variables:
@@ -15,34 +17,55 @@
 Mostly based on the great project [envalid](https://github.com/af/envalid), but with some key differences:
 
 - Written in 100% TypeScript
-- Always strict - only get the props you have defined
-- No dependencies - smaller bundle for browser/isomorphic apps
+- **Always strict** - only access the variables you have defined
+- Built for node.js **and** the browser
+- **No dependencies** - tiny bundle for browser/isomorphic apps
+
+---
+
+- [How to use](#how-to-use)
+  - [Install](#install)
+  - [Basic usage](#basic-usage)
+- [Built-in validators](#built-in-validators)
+  - [Possible options](#possible-options)
+- [Custom validators/parsers](#custom-validatorsparsers)
+- [Error reporting](#error-reporting)
 
 ## How to use
 
 Works the same in the browser and in node. See the [`./examples`](./examples)-folder for more examples.
 
+### Install
+
+```sh
+yarn add envsafe
+```
+
+```sh
+npm i envsafe --save
+```
+
+### Basic usage
+
 ```ts
-import { str, envsafe, url } from 'envsafe';
+import { str, envsafe, port, url } from 'envsafe';
 
 export const env = envsafe({
   NODE_ENV: str({
     devDefault: 'development',
+    choices: ['development', 'test', 'production'],
   }),
-  REACT_API_URL: url({
+  PORT: port({
+    devDefault: 3000,
+  }),
+  API_URL: url({
     devDefault: 'https://example.com/graphql',
   }),
-  REACT_APP_AUTH0_CLIENT_ID: str({
+  AUTH0_CLIENT_ID: str({
     devDefault: 'xxxxx',
   }),
-  REACT_APP_AUTH0_DOMAIN: str({
+  AUTH0_DOMAIN: str({
     devDefault: 'xxxxx.auth0.com',
-  }),
-  REACT_APP_SEGMENT_ID: str({
-    devDefault: 'xxxxx',
-  }),
-  REACT_APP_BUGSNAG_API_KEY: str({
-    default: 'xxxxx',
   }),
 });
 ```
@@ -133,73 +156,21 @@ const env = envsafe(
 );
 ```
 
-# Contributing
+## Strict mode (recommended for JS-users)
 
-## Running the project locally
+By default envsafe returns a `Readonly<T>` which in TypeScript ensures the env can't be modified and undefined properties from being accessed, but if you're using JavaScript you are still able to access env vars that don't exist. Therefore there's a strict mode option, which is recommended if your project is using vanilla JS, but not recommended if you use TypeScript.
 
-To run TSDX, use:
-
-```bash
-npm start # or yarn start
-```
-
-This builds to `/dist` and runs the project in watch mode so any edits you save inside `src` causes a rebuild to `/dist`.
-
-To do a one-off build, use `npm run build` or `yarn build`.
-
-To run tests, use `npm test` or `yarn test`.
-
-## Configuration
-
-Code quality is set up for you with `prettier`, `husky`, and `lint-staged`.
-
-### Jest
-
-Jest tests are set up to run with `npm test` or `yarn test`.
-
-### Rollup
-
-TSDX uses [Rollup](https://rollupjs.org) as a bundler and generates multiple rollup configs for various module formats and build settings. See [Optimizations](#optimizations) for details.
-
-### TypeScript
-
-`tsconfig.json` is set up to interpret `dom` and `esnext` types.
-
-## Continuous Integration
-
-### GitHub Actions
-
-A simple action is included that runs these steps on all pushes:
-
-- Installs deps w/ cache
-- Lints, tests, and builds
-
-## Optimizations
-
-Please see the main `tsdx` [optimizations docs](https://github.com/palmerhq/tsdx#optimizations). In particular, know that you can take advantage of development-only optimizations:
+It wraps the function in `Object.freeze` and a `Proxy` that disallows access to any props that aren't defined.
 
 ```js
-// ./types/index.d.ts
-declare var __DEV__: boolean;
+import { envsafe, str } from 'envsafe';
 
-// inside your code...
-if (__DEV__) {
-  console.log('foo');
-}
-```
-
-You can also choose to install and use [invariant](https://github.com/palmerhq/tsdx#invariant) and [warning](https://github.com/palmerhq/tsdx#warning) functions.
-
-## Module Formats
-
-CJS, ESModules, and UMD module formats are supported.
-
-The appropriate paths are configured in `package.json` and `dist/index.js` accordingly. Please report if any issues are found.
-
-## Named Exports
-
-Per Palmer Group guidelines, [always use named exports.](https://github.com/palmerhq/typescript#exports) Code split inside your React app instead of your React library.
-
-```
-
+export const browserEnv = envsafe(
+  {
+    MY_ENV: str(),
+  },
+  {
+    strict: true,
+  },
+);
 ```
