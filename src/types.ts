@@ -50,6 +50,7 @@ export type ReporterFn<TCleanEnv> = (opts: ReporterOpts<TCleanEnv>) => void;
 export type EnvsafeOpts<TCleanEnv> = {
   /**
    * Override the built-in reporter
+   * @default `defaultReporter`
    */
   reporter?: ReporterFn<TCleanEnv>;
   /**

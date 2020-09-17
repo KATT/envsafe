@@ -1,7 +1,7 @@
-import { cleanEnv, str } from '../src';
+import { envsafe, str } from '../src';
 
 test('strictEnv', () => {
-  const env = cleanEnv(
+  const env = envsafe(
     {
       foo: str(),
     },
@@ -36,7 +36,7 @@ test('strictEnv', () => {
 });
 
 test('non-strict (default behavior)', () => {
-  const env = cleanEnv(
+  const env = envsafe(
     {
       foo: str(),
     },
