@@ -41,10 +41,10 @@ test('custom parser error', () => {
 
   const { consoleMessage } = mockExitAndConsoleWasCalled();
   expect(consoleMessage).toMatchInlineSnapshot(`
-    "================================
+    "=================================================
     ❌ Invalid environment variables:
         foo: Expected 'not bar' to be 'bar'
-    ================================"
+    ================================================="
   `);
 });
 
@@ -52,18 +52,18 @@ test('missing env', () => {
   mockExitAndConsole();
   expect(() => cleanEnv({}, { num: num() }))
     .toThrowErrorMatchingInlineSnapshot(`
-"================================
+"=================================================
 💨 Missing environment variables:
-    num: Missing value for num
-================================"
+    num: Missing value
+================================================="
 `);
 
   const { consoleMessage } = mockExitAndConsoleWasCalled();
   expect(consoleMessage).toMatchInlineSnapshot(`
-    "================================
+    "=================================================
     💨 Missing environment variables:
-        num: Missing value for num
-    ================================"
+        num: Missing value
+    ================================================="
   `);
 });
 
@@ -110,9 +110,9 @@ test('choices', () => {
   const res = expectError({ str: 'c' }, opts);
 
   expect(res.consoleMessage).toMatchInlineSnapshot(`
-    "================================
+    "=================================================
     ❌ Invalid environment variables:
         str: Value \\"c\\" not in choices [a,b]
-    ================================"
+    ================================================="
   `);
 });
