@@ -1,4 +1,4 @@
-export * from './cleanEnv';
+export * from './envsafe';
 export * from './errors';
 export * from './reporter';
 export * from './types';

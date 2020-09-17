@@ -1,6 +1,6 @@
-import { cleanEnv, port, str } from '../../';
+import { envsafe, port, str } from '../../';
 
-const env = cleanEnv({
+const env = envsafe({
   NODE_ENV: str({
     choices: ['development', 'test', 'production'],
   }),

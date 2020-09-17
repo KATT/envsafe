@@ -19,7 +19,7 @@ export interface Spec<TValue> {
   /**
    * An example value for the env var.
    */
-  example?: string;
+  example?: string | TValue;
   /**
    * A url that leads to more detailed documentation about the env var.
    */
@@ -42,7 +42,7 @@ export type ReporterOpts<TCleanEnv> = {
 
 export type Reporter<TCleanEnv> = (opts: ReporterOpts<TCleanEnv>) => void;
 
-export type CleanEnvOpts<TCleanEnv> = {
+export type envsafeOpts<TCleanEnv> = {
   reporter?: Reporter<TCleanEnv>;
   env?: Environment;
 };
