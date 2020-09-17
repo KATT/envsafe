@@ -1,4 +1,4 @@
-import { cleanEnv, str } from "../../../";
+import { envsafe, str } from "../../../";
 
 
 const publicEnvVars = {
@@ -13,5 +13,5 @@ const publicEnvVars = {
   }),
 };
 
-export const publicEnv = cleanEnv(process.env, publicEnvVars)
+export const publicEnv = envsafe(process.env, publicEnvVars)
 

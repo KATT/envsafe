@@ -1,4 +1,4 @@
-import { cleanEnv, str } from '../../../'
+import { envsafe, str } from '../../../'
 import { publicEnv } from "./publicEnv";
 
 if (process.browser) {
@@ -7,7 +7,7 @@ if (process.browser) {
 
 export const serverEnv = {
   ...publicEnv,
-  ...cleanEnv(process.env, {
+  ...envsafe(process.env, {
     ENV_VARIABLE: str({
     })
   })
