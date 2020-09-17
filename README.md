@@ -154,3 +154,22 @@ const env = envsafe(
   },
 );
 ```
+
+## Strict mode (recommended for JS-users)
+
+By default envsafe returns a `Readonly<T>` which in TypeScript ensures the env can't be modified and undefined properties from being accessed, but if you're using JavaScript you are still able to access env vars that don't exist. Therefore there's a strict mode option, which is recommended if your project is using vanilla JS, but not recommended if you use TypeScript.
+
+It wraps the function in `Object.freeze` and a `Proxy` that disallows access to any props that aren't defined.
+
+```js
+import { envsafe, str } from 'envsafe';
+
+export const browserEnv = envsafe(
+  {
+    MY_ENV: str(),
+  },
+  {
+    strict: true,
+  },
+);
+```
