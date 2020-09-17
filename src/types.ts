@@ -19,11 +19,16 @@ export interface Spec<TValue> {
   /**
    * An example value for the env var.
    */
-  example?: string;
+  example?: string | TValue;
   /**
    * A url that leads to more detailed documentation about the env var.
    */
   docs?: string;
+  /**
+   * If you want to override what is passed to the parser, defaults to `env[key]`
+   * Can be useful on the front-end when webpack makes the vars disappear
+   */
+  input?: string | undefined;
 }
 
 export interface ValidatorSpec<TValue> extends Spec<TValue> {
@@ -42,7 +47,7 @@ export type ReporterOpts<TCleanEnv> = {
 
 export type ReporterFn<TCleanEnv> = (opts: ReporterOpts<TCleanEnv>) => void;
 
-export type CleanEnvOpts<TCleanEnv> = {
+export type EnvsafeOpts<TCleanEnv> = {
   /**
    * Override the built-in reporter
    */

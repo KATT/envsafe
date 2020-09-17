@@ -2,7 +2,7 @@ import { InvalidEnvError, MissingEnvError } from './errors';
 import { freezeObject } from './freezeObject';
 import { defaultReporter } from './reporter';
 import {
-  CleanEnvOpts,
+  envsafeOpts,
   Environment,
   Errors,
   ValidatorSpec,
@@ -20,7 +20,7 @@ function getValueOrThrow<TValue>({
 }): TValue {
   const usingDevDefault = env.NODE_ENV !== 'production';
 
-  let raw: string | TValue | undefined = env[key];
+  let raw: string | TValue | undefined = validator.input ?? env[key];
 
   if (
     raw === undefined &&
@@ -47,12 +47,12 @@ function getValueOrThrow<TValue>({
   return value;
 }
 
-export function cleanEnv<TCleanEnv>(
+export function envsafe<TCleanEnv>(
   validators: Validators<TCleanEnv>,
   {
     reporter = defaultReporter,
     env = process.env,
-  }: CleanEnvOpts<TCleanEnv> = {},
+  }: envsafeOpts<TCleanEnv> = {},
 ): Readonly<TCleanEnv> {
   const errors: Errors = {};
   const output = {} as TCleanEnv;

@@ -2,20 +2,30 @@
 
 # `env`safe 🔒
 
-Mostly based on the great project [envalid](https://github.com/af/envalid), but with some minor differences
+```
+========================================
+❌ Invalid environment variables:
+    API_URL: Invalid url input: "http//example.com/graphql"
+💨 Missing environment variables:
+    MY_VAR: Missing value
+    PORT: Missing value
+========================================
+```
 
-- Rewritten in 100% TypeScript
+Mostly based on the great project [envalid](https://github.com/af/envalid), but with some key differences:
+
+- Written in 100% TypeScript
 - Always strict - only get the props you have defined
 - No dependencies - smaller bundle for browser/isomorphic apps
 
 ## How to use
 
-Works the same in the browser and in node.
+Works the same in the browser and in node. See the [`./examples`](./examples)-folder for more examples.
 
 ```ts
-import { str, cleanEnv, url } from 'envsafe';
+import { str, envsafe, url } from 'envsafe';
 
-export const env = cleanEnv(process.env, {
+export const env = envsafe({
   NODE_ENV: str({
     devDefault: 'development',
   }),
@@ -36,6 +46,94 @@ export const env = cleanEnv(process.env, {
   }),
 });
 ```
+
+It defaults to using `process.env` as a base for plucking the vars, but it can be overridden like this:
+
+```ts
+export const env = envsafe(
+  {
+    ENV_VAR: str({
+      devDefault: 'myvar',
+    }),
+  },
+  {
+    env: window.__ENVIRONMENT__,
+  },
+);
+```
+
+## Built-in validators
+
+| Function  | return value | Description                                                                                      |
+| --------- | ------------ | ------------------------------------------------------------------------------------------------ |
+| `str()`   | `string`     | Passes string values through, will ensure an value is present unless a `default` value is given. |
+| `bool()`  | `boolean`    | Parses env var strings `"0", "1", "true", "false", "t", "f"` into booleans                       |
+| `num()`   | `number`     | Parses an env var (eg. "42", "0.23", "1e5") into a Number                                        |
+| `port()`  | `number`     | Ensures an env var is a TCP port (1-65535)                                                       |
+| `url()`   | `string`     | Ensures an env var is a url with a protocol and hostname                                         |
+| `email()` | `string`     | Ensures an env var is an email address                                                           |
+| `json()`  | `unknown`    | Parses an env var with `JSON.parse`                                                              |
+
+### Possible options
+
+All optional.
+
+| Name         | Type                | Description                                                                                                                                                                           |
+| ------------ | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `choices`    | `TValue[]`          | Allow-list for values                                                                                                                                                                 |
+| `default`    | `TValue` / `string` | A fallback value, which will be used if the env var wasn't specified. Providing a default effectively makes the env var optional.                                                     |
+| `devDefault` | `TValue` / `string` | A fallback value to use only when `NODE_ENV` is not `production`. This is handy for env vars that are required for production environments, but optional for development and testing. |
+
+These values below are not used by the library and only for description of the variables.
+
+| Name      | Type                | Description                                                        |
+| --------- | ------------------- | ------------------------------------------------------------------ |
+| `desc`    | `string`            | A string that describes the env var.                               |
+| `example` | `string` / `TValue` | An example value for the env var.                                  |
+| `docs`    | `string`            | A url that leads to more detailed documentation about the env var. |
+
+## Custom validators/parsers
+
+```ts
+import { makeValidator, envsafe } from 'envsafe';
+
+const barParser = makeValidator<'bar'>(input => {
+  if (input !== 'bar') {
+    throw new InvalidEnvError(`Expected '${input}' to be 'bar'`);
+  }
+  return 'bar';
+});
+
+const env = envsafe({
+  FOO: barParser(),
+});
+```
+
+## Error reporting
+
+By default the reporter will
+
+- Make a readable summary of your issues
+- `console.error`-log an error
+- Call `process.exit(1)` / `window.alert(text)`
+- Throw an error
+
+Can be overridden by the `reporter`-property
+
+```ts
+const env = envsafe(
+  {
+    MY_VAR: str(),
+  },
+  {
+    reporter({ errors, output, env }) {
+      // do stuff
+    },
+  },
+);
+```
+
+# Contributing
 
 ## Running the project locally
 
@@ -101,3 +199,7 @@ The appropriate paths are configured in `package.json` and `dist/index.js` accor
 ## Named Exports
 
 Per Palmer Group guidelines, [always use named exports.](https://github.com/palmerhq/typescript#exports) Code split inside your React app instead of your React library.
+
+```
+
+```

@@ -1,4 +1,4 @@
-import { cleanEnv } from '../src';
+import { envsafe } from '../src';
 
 let exit: jest.SpyInstance;
 let consoleError: jest.SpyInstance;
@@ -34,9 +34,9 @@ export function mockExitAndConsoleWasCalled() {
   return { consoleMessage };
 }
 
-export function expectError(...args: Parameters<typeof cleanEnv>) {
+export function expectError(...args: Parameters<typeof envsafe>) {
   mockExitAndConsole();
-  expect(() => cleanEnv(...args)).toThrowError();
+  expect(() => envsafe(...args)).toThrowError();
   const res = mockExitAndConsoleWasCalled();
 
   return res;

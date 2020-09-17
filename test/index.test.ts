@@ -1,4 +1,4 @@
-import { cleanEnv } from '../src';
+import { envsafe } from '../src';
 import { InvalidEnvError } from '../src/errors';
 import { makeValidator, num, str } from '../src/validators';
 import {
@@ -16,7 +16,7 @@ const barParser = makeValidator<'bar'>(input => {
 
 test('custom parser', () => {
   expect(
-    cleanEnv(
+    envsafe(
       {
         foo: barParser({}),
       },
@@ -31,7 +31,7 @@ test('custom parser error', () => {
   mockExitAndConsole();
 
   expect(() =>
-    cleanEnv(
+    envsafe(
       {
         foo: barParser({}),
       },
@@ -41,29 +41,29 @@ test('custom parser error', () => {
 
   const { consoleMessage } = mockExitAndConsoleWasCalled();
   expect(consoleMessage).toMatchInlineSnapshot(`
-    "=================================================
+    "========================================
     ❌ Invalid environment variables:
         foo: Expected 'not bar' to be 'bar'
-    ================================================="
+    ========================================"
   `);
 });
 
 test('missing env', () => {
   mockExitAndConsole();
-  expect(() => cleanEnv({ num: num() }, { env: {} }))
+  expect(() => envsafe({ num: num() }, { env: {} }))
     .toThrowErrorMatchingInlineSnapshot(`
-"=================================================
+"========================================
 💨 Missing environment variables:
     num: Missing value
-================================================="
+========================================"
 `);
 
   const { consoleMessage } = mockExitAndConsoleWasCalled();
   expect(consoleMessage).toMatchInlineSnapshot(`
-    "=================================================
+    "========================================
     💨 Missing environment variables:
         num: Missing value
-    ================================================="
+    ========================================"
   `);
 });
 
@@ -72,7 +72,7 @@ test('custom reporter', () => {
 
   const mocks = mockExitAndConsole();
 
-  cleanEnv(
+  envsafe(
     {
       foo: barParser({}),
     },
@@ -105,13 +105,13 @@ test('choices', () => {
       choices: ['a', 'b'],
     }),
   };
-  expect(cleanEnv(opts, { env: { str: 'a' } }).str).toBe('a');
+  expect(envsafe(opts, { env: { str: 'a' } }).str).toBe('a');
   const res = expectError(opts, { env: { str: 'c' } });
 
   expect(res.consoleMessage).toMatchInlineSnapshot(`
-    "=================================================
+    "========================================
     ❌ Invalid environment variables:
         str: Value \\"c\\" not in choices [a,b]
-    ================================================="
+    ========================================"
   `);
 });
