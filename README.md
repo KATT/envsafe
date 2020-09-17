@@ -2,7 +2,17 @@
 
 # `env`safe 🔒
 
-Mostly based on the great project [envalid](https://github.com/af/envalid), but with some minor differences
+```
+========================================
+❌ Invalid environment variables:
+    API_URL: Invalid url input: "http//example.com/graphql"
+💨 Missing environment variables:
+    MY_VAR: Missing value
+    PORT: Missing value
+========================================
+```
+
+Mostly based on the great project [envalid](https://github.com/af/envalid), but with some key differences:
 
 - Written in 100% TypeScript
 - Always strict - only get the props you have defined

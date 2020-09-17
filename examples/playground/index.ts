@@ -1,4 +1,4 @@
-import { envsafe, port, str } from '../../';
+import { envsafe, port, str, url } from '../../';
 
 const env = envsafe({
   NODE_ENV: str({
@@ -7,6 +7,9 @@ const env = envsafe({
   }),
   MY_VAR: str({
     devDefault: 'default value'
+  }),
+  API_URL: url({
+    devDefault: "http://example.com/graphql"
   }),
   PORT: port({
     devDefault: 3000,

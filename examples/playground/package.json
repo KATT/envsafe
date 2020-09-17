@@ -6,7 +6,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "preinstall": "cd ../../ && yarn && yarn build"
+    "preinstall": "cd ../../ && yarn && yarn build",
+    "dev": "ts-node index"
   },
   "dependencies": {
     "ts-node": "^9.0.0",
