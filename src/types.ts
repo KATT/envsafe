@@ -44,6 +44,7 @@ export type Reporter<TCleanEnv> = (opts: ReporterOpts<TCleanEnv>) => void;
 
 export type CleanEnvOpts<TCleanEnv> = {
   reporter?: Reporter<TCleanEnv>;
+  env?: Environment;
 };
 
 export type Validators<TCleanEnv> = {

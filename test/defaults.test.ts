@@ -6,15 +6,15 @@ test('devDefault', () => {
   expect(
     cleanEnv(
       {
-        NODE_ENV: 'development',
-      },
-      {
         num: num({
           devDefault: 1,
         }),
         str: str({
           devDefault: 'str',
         }),
+      },
+      {
+        env: {},
       }
     )
   ).toEqual({
