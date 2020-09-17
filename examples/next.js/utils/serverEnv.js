@@ -9,5 +9,7 @@ export const serverEnv = {
   ...browserEnv,
   ...envsafe({
     ENV_VARIABLE: str()
+  }, {
+    strict: true
   })
 }
