@@ -1,7 +1,7 @@
 import { envsafe, str } from "../../../";
 
 
-const publicEnvVars = {
+export const publicEnv = envsafe({
   NEXT_PUBLIC_NO_DEFAULT: str({
     // because of how nextjs deals with transpiling public env vars 
     // we have to put it in as `input`
@@ -11,7 +11,5 @@ const publicEnvVars = {
     devDefault: 'with default',
     input: process.env.NEXT_PUBLIC_WITH_DEFAULT,
   }),
-};
-
-export const publicEnv = envsafe(process.env, publicEnvVars)
+})
 

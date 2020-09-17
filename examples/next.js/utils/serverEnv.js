@@ -7,8 +7,7 @@ if (process.browser) {
 
 export const serverEnv = {
   ...publicEnv,
-  ...envsafe(process.env, {
-    ENV_VARIABLE: str({
-    })
+  ...envsafe({
+    ENV_VARIABLE: str()
   })
 }
