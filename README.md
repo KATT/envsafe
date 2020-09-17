@@ -19,7 +19,7 @@ Mostly based on the great project [envalid](https://github.com/af/envalid), but 
 - Written in **100% TypeScript**
 - Always **strict** - only access the variables you have defined
 - Built for node.js **and** the browser
-- **No dependencies** - smaller bundle for browser/isomorphic apps
+- **No dependencies** - tiny bundle for browser/isomorphic apps
 
 ---
 
