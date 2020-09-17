@@ -2,6 +2,8 @@
 
 # `env`safe 🔒
 
+Validate access to environment variables and parse them to the right type.
+
 ```
 ========================================
 ❌ Invalid environment variables:
@@ -16,6 +18,7 @@ Mostly based on the great project [envalid](https://github.com/af/envalid), but 
 
 - Written in 100% TypeScript
 - Always strict - only get the props you have defined
+- Built for the browser and node.js
 - No dependencies - smaller bundle for browser/isomorphic apps
 
 ---
