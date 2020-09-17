@@ -45,5 +45,5 @@ export function defaultReporter<TCleanEnv>(opts: ReporterOpts<TCleanEnv>) {
     window.alert(text);
   }
 
-  throw new Error(text);
+  throw new TypeError(text);
 }
