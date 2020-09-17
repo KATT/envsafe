@@ -39,7 +39,7 @@ function getValueOrThrow<TValue>({
 
   if (validator.choices && !validator.choices.includes(value)) {
     throw new InvalidEnvError(
-      `Value "${value}" not in choices [${validator.choices}]`
+      `Value "${value}" not in choices [${validator.choices}]`,
     );
   }
 

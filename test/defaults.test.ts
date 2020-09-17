@@ -26,7 +26,6 @@ test('devDefault', () => {
 test('default', () => {
   expect(
     cleanEnv(
-      {},
       {
         num: num({
           default: 1,
@@ -34,8 +33,11 @@ test('default', () => {
         str: str({
           default: 'str',
         }),
+      },
+      {
+        env: {},
       }
-    )
+    ),
   ).toEqual({
     num: 1,
     str: 'str',
@@ -51,22 +53,26 @@ test('devDefault versus default presedence', () => {
   };
   expect(
     cleanEnv(
+      opts,
       {
-        NODE_ENV: 'development',
-      },
-      opts
-    )
+        env: {
+          NODE_ENV: 'development',
+        },
+      }
+    ),
   ).toEqual({
     str: 'devDefault',
   });
 
   expect(
     cleanEnv(
+      opts,
       {
-        NODE_ENV: 'production',
+        env: {
+          NODE_ENV: 'production',
+        }
       },
-      opts
-    )
+    ),
   ).toEqual({
     str: 'default',
   });
@@ -75,23 +81,23 @@ test('devDefault versus default presedence', () => {
 test('parses default values', () => {
   expect(
     cleanEnv(
-      {},
       {
         num: num({
           default: 0,
         }),
-      }
-    )
+      },
+      { env: {} },
+    ),
   ).toEqual({ num: 0 });
   expect(
     cleanEnv(
-      {},
       {
         num: num({
           default: '0' as any,
         }),
-      }
-    )
+      },
+      { env: {} },
+    ),
   ).toEqual({ num: 0 });
 });
 
@@ -99,13 +105,13 @@ test('fails when default values are wrong', () => {
   mockExitAndConsole();
   expect(() =>
     cleanEnv(
-      {},
       {
         num: num({
           default: 'not a number' as any,
         }),
-      }
-    )
+      },
+      { env: {} },
+    ),
   ).toThrowError();
   mockExitAndConsoleWasCalled();
 });
