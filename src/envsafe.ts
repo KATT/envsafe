@@ -1,7 +1,7 @@
 import { InvalidEnvError, MissingEnvError } from './errors';
 import { defaultReporter } from './reporter';
 import {
-  CleanEnvOpts,
+  envsafeOpts,
   Environment,
   Errors,
   ValidatorSpec,
@@ -46,15 +46,12 @@ function getValueOrThrow<TValue>({
   return value;
 }
 
-export function cleanEnv<TCleanEnv>(
-  validators: Validators<TCleanEnv>,
-  {
-    reporter = defaultReporter,
-    env = process.env,
-  }: CleanEnvOpts<TCleanEnv> = {},
-): Readonly<TCleanEnv> {
+export function envsafe<Tenvsafe>(
+  validators: Validators<Tenvsafe>,
+  { reporter = defaultReporter, env = process.env }: envsafeOpts<Tenvsafe> = {},
+): Readonly<Tenvsafe> {
   const errors: Errors = {};
-  const output = {} as TCleanEnv;
+  const output = {} as Tenvsafe;
 
   for (const key in validators) {
     const validator = validators[key];

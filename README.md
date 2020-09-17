@@ -4,7 +4,7 @@
 
 Mostly based on the great project [envalid](https://github.com/af/envalid), but with some minor differences
 
-- Rewritten in 100% TypeScript
+- Written in 100% TypeScript
 - Always strict - only get the props you have defined
 - No dependencies - smaller bundle for browser/isomorphic apps
 
@@ -13,9 +13,9 @@ Mostly based on the great project [envalid](https://github.com/af/envalid), but 
 Works the same in the browser and in node.
 
 ```ts
-import { str, cleanEnv, url } from 'envsafe';
+import { str, envsafe, url } from 'envsafe';
 
-export const env = cleanEnv({
+export const env = envsafe({
   NODE_ENV: str({
     devDefault: 'development',
   }),
@@ -40,7 +40,7 @@ export const env = cleanEnv({
 It defaults to using `process.env` as a base for plucking the vars, but it can be overridden like this:
 
 ```ts
-export const env = cleanEnv(
+export const env = envsafe(
   {
     ENV_VAR: str({
       devDefault: 'myvar',

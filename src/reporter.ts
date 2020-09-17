@@ -1,9 +1,9 @@
 import { MissingEnvError } from './errors';
 import { ReporterOpts } from './types';
 
-export function defaultReporterText<TCleanEnv>({
+export function defaultReporterText<Tenvsafe>({
   errors,
-}: ReporterOpts<TCleanEnv>) {
+}: ReporterOpts<Tenvsafe>) {
   const keys = Object.keys(errors);
 
   const invalids: string[] = [];
@@ -34,7 +34,7 @@ export function defaultReporterText<TCleanEnv>({
   return output.join('\n');
 }
 
-export function defaultReporter<TCleanEnv>(opts: ReporterOpts<TCleanEnv>) {
+export function defaultReporter<Tenvsafe>(opts: ReporterOpts<Tenvsafe>) {
   const text = defaultReporterText(opts);
   console.error(text);
 

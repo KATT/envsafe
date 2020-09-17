@@ -34,19 +34,19 @@ export type Environment = Record<string, string | undefined>;
 
 export type Errors = Record<string, Error>;
 
-export type ReporterOpts<TCleanEnv> = {
+export type ReporterOpts<Tenvsafe> = {
   env: Environment;
-  output: Partial<TCleanEnv>;
+  output: Partial<Tenvsafe>;
   errors: Errors;
 };
 
-export type Reporter<TCleanEnv> = (opts: ReporterOpts<TCleanEnv>) => void;
+export type Reporter<Tenvsafe> = (opts: ReporterOpts<Tenvsafe>) => void;
 
-export type CleanEnvOpts<TCleanEnv> = {
-  reporter?: Reporter<TCleanEnv>;
+export type envsafeOpts<Tenvsafe> = {
+  reporter?: Reporter<Tenvsafe>;
   env?: Environment;
 };
 
-export type Validators<TCleanEnv> = {
-  [K in keyof TCleanEnv]: ValidatorSpec<TCleanEnv[K]>;
+export type Validators<Tenvsafe> = {
+  [K in keyof Tenvsafe]: ValidatorSpec<Tenvsafe[K]>;
 };
