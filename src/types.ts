@@ -58,7 +58,8 @@ export type EnvsafeOpts<TCleanEnv> = {
    */
   env?: Environment;
   /**
-   * Wraps the returned object in a Proxy which throws an error whenever an attempt is made to access an undefined property
+   * Wrap the returned object in a `Proxy` which throws an error whenever an attempt is made to access an undefined property
+   * Useful if you're not using TypeScript
    * @default false
    */
   strict?: boolean;
