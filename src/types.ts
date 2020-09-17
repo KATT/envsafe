@@ -19,7 +19,7 @@ export interface Spec<TValue> {
   /**
    * An example value for the env var.
    */
-  example?: string;
+  example?: string | TValue;
   /**
    * A url that leads to more detailed documentation about the env var.
    */

@@ -68,19 +68,19 @@ export const env = envsafe(
 
 All optional.
 
-| Name         | Type              | Description                                                                                                                                                                           |
-| ------------ | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `choices`    | `TValue[]`        | Allow-list for values                                                                                                                                                                 |
-| `default`    | `TValue | string` | A fallback value, which will be used if the env var wasn't specified. Providing a default effectively makes the env var optional.                                                     |
-| `devDefault` | `TValue | string` | A fallback value to use only when `NODE_ENV` is not `production`. This is handy for env vars that are required for production environments, but optional for development and testing. |
+| Name         | Type                | Description                                                                                                                                                                           |
+| ------------ | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `choices`    | `TValue[]`          | Allow-list for values                                                                                                                                                                 |
+| `default`    | `TValue` / `string` | A fallback value, which will be used if the env var wasn't specified. Providing a default effectively makes the env var optional.                                                     |
+| `devDefault` | `TValue` / `string` | A fallback value to use only when `NODE_ENV` is not `production`. This is handy for env vars that are required for production environments, but optional for development and testing. |
 
 These values below are not used by the library and only for description of the variables.
 
-| Name      | Type     | Description                                                        |
-| --------- | -------- | ------------------------------------------------------------------ |
-| `desc`    | `string` | A string that describes the env var.                               |
-| `example` | `string` | An example value for the env var.                                  |
-| `docs`    | `string` | A url that leads to more detailed documentation about the env var. |
+| Name      | Type                | Description                                                        |
+| --------- | ------------------- | ------------------------------------------------------------------ |
+| `desc`    | `string`            | A string that describes the env var.                               |
+| `example` | `string` / `TValue` | An example value for the env var.                                  |
+| `docs`    | `string`            | A url that leads to more detailed documentation about the env var. |
 
 ## Custom validators/parsers
 
