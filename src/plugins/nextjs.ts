@@ -1,3 +1,5 @@
+import { DefinePlugin } from 'webpack';
+
 export function nextjsWebpackPlugin<
   TCleanEnv extends Readonly<Record<string, any>>
 >({
@@ -5,7 +7,9 @@ export function nextjsWebpackPlugin<
   webpack,
 }: {
   browserEnv: TCleanEnv;
-  webpack: any; // FIXME
+  webpack: {
+    DefinePlugin: typeof DefinePlugin;
+  };
 }) {
   const env = {} as TCleanEnv;
   for (const key in browserEnv) {
