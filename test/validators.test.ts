@@ -9,17 +9,19 @@ import {
 describe('num', () => {
   test('happy', () => {
     const opts = { num: num() };
-    expect(cleanEnv({ num: '1' }, opts)).toEqual({
+    expect(cleanEnv(opts, { env: { num: '1' } })).toEqual({
       num: 1,
     });
   });
   test('sad', () => {
     mockExitAndConsole();
-    expect(() => cleanEnv({}, { num: num() })).toThrowError();
+    expect(() => cleanEnv({ num: num() }, { env: {} })).toThrowError();
     mockExitAndConsoleWasCalled();
 
     mockExitAndConsole();
-    expect(() => cleanEnv({ num: 'string' }, { num: num() })).toThrowError();
+    expect(() =>
+      cleanEnv({ num: num() }, { env: { num: 'string' } }),
+    ).toThrowError();
     mockExitAndConsoleWasCalled();
   });
 });
@@ -27,15 +29,16 @@ describe('num', () => {
 test('url', () => {
   const opts = { url: url() };
 
-  expectError({}, opts);
-  expectError(
-    {
+  expectError(opts, { env: {} });
+  expectError(opts, {
+    env: {
       url: 'meep',
     },
-    opts,
-  );
+  });
 
-  const parsed = cleanEnv({ url: 'https://example.com?query=test' }, opts);
+  const parsed = cleanEnv(opts, {
+    env: { url: 'https://example.com?query=test' },
+  });
 
   expect(parsed.url).toMatchInlineSnapshot(`"https://example.com?query=test"`);
 });
@@ -43,12 +46,12 @@ test('url', () => {
 test('port', () => {
   const opts = { port: port() };
 
-  expectError({ port: '-1' }, opts);
-  expectError({ port: '0' }, opts);
-  expectError({ port: '1.2' }, opts);
-  expectError({ port: '65536' }, opts);
+  expectError(opts, { env: { port: '-1' } });
+  expectError(opts, { env: { port: '0' } });
+  expectError(opts, { env: { port: '1.2' } });
+  expectError(opts, { env: { port: '65536' } });
 
-  expect(cleanEnv({ port: '1' }, opts)).toMatchInlineSnapshot(`
+  expect(cleanEnv(opts, { env: { port: '1' } })).toMatchInlineSnapshot(`
     Object {
       "port": 1,
     }
@@ -58,15 +61,15 @@ test('port', () => {
 test('json', () => {
   const opts = { json: json() };
 
-  expectError({ json: '' }, opts);
-  expectError({ json: 'undefined' }, opts);
+  expectError(opts, { env: { json: '' } });
+  expectError(opts, { env: { json: 'undefined' } });
 
-  expect(cleanEnv({ json: 'null' }, opts)).toMatchInlineSnapshot(`
+  expect(cleanEnv(opts, { env: { json: 'null' } })).toMatchInlineSnapshot(`
     Object {
       "json": null,
     }
   `);
-  expect(cleanEnv({ json: '{}' }, opts)).toMatchInlineSnapshot(`
+  expect(cleanEnv(opts, { env: { json: '{}' } })).toMatchInlineSnapshot(`
     Object {
       "json": Object {},
     }
@@ -75,25 +78,25 @@ test('json', () => {
 
 test('bool', () => {
   const opts = { bool: bool() };
-  expectError({ bool: 'nah' }, opts);
+  expectError(opts, { env: { bool: 'nah' } });
 
-  expect(cleanEnv({ bool: '1' }, opts).bool).toBe(true);
-  expect(cleanEnv({ bool: 'true' as any }, opts).bool).toBe(true);
-  expect(cleanEnv({ bool: 't' as any }, opts).bool).toBe(true);
+  expect(cleanEnv(opts, { env: { bool: '1' } }).bool).toBe(true);
+  expect(cleanEnv(opts, { env: { bool: 'true' as any } }).bool).toBe(true);
+  expect(cleanEnv(opts, { env: { bool: 't' as any } }).bool).toBe(true);
 
-  expect(cleanEnv({ bool: 'false' as any }, opts).bool).toBe(false);
-  expect(cleanEnv({ bool: 'f' as any }, opts).bool).toBe(false);
-  expect(cleanEnv({ bool: '0' as any }, opts).bool).toBe(false);
+  expect(cleanEnv(opts, { env: { bool: 'false' as any } }).bool).toBe(false);
+  expect(cleanEnv(opts, { env: { bool: 'f' as any } }).bool).toBe(false);
+  expect(cleanEnv(opts, { env: { bool: '0' as any } }).bool).toBe(false);
 
-  expect(cleanEnv({ bool: true as any }, opts).bool).toBe(true);
-  expect(cleanEnv({ bool: false as any }, opts).bool).toBe(false);
+  expect(cleanEnv(opts, { env: { bool: true as any } }).bool).toBe(true);
+  expect(cleanEnv(opts, { env: { bool: false as any } }).bool).toBe(false);
 });
 
 test('email', () => {
   const opts = { email: email() };
 
-  expectError({ email: 'nah' }, opts);
-  expect(cleanEnv({ email: 'test@example.com' }, opts).email).toBe(
+  expectError(opts, { env: { email: 'nah' } });
+  expect(cleanEnv(opts, { env: { email: 'test@example.com' } }).email).toBe(
     'test@example.com',
   );
 });
@@ -101,6 +104,6 @@ test('email', () => {
 test('str', () => {
   const opts = { str: str() };
 
-  expectError({ str: null as any }, opts);
-  expect(cleanEnv({ str: '1' }, opts).str).toBe('1');
+  expectError(opts, { env: { str: null as any } });
+  expect(cleanEnv(opts, { env: { str: '1' } }).str).toBe('1');
 });

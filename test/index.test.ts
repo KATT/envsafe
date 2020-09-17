@@ -17,10 +17,10 @@ const barParser = makeValidator<'bar'>(input => {
 test('custom parser', () => {
   expect(
     cleanEnv(
-      { foo: 'bar' },
       {
         foo: barParser({}),
       },
+      { env: { foo: 'bar' } },
     ),
   ).toEqual({
     foo: 'bar',
@@ -32,10 +32,10 @@ test('custom parser error', () => {
 
   expect(() =>
     cleanEnv(
-      { foo: 'not bar' },
       {
         foo: barParser({}),
       },
+      { env: { foo: 'not bar' } },
     ),
   ).toThrowError();
 
@@ -50,7 +50,7 @@ test('custom parser error', () => {
 
 test('missing env', () => {
   mockExitAndConsole();
-  expect(() => cleanEnv({}, { num: num() }))
+  expect(() => cleanEnv({ num: num() }, { env: {} }))
     .toThrowErrorMatchingInlineSnapshot(`
 "========================================
 💨 Missing environment variables:
@@ -73,11 +73,10 @@ test('custom reporter', () => {
   const mocks = mockExitAndConsole();
 
   cleanEnv(
-    { foo: 'not bar' },
     {
       foo: barParser({}),
     },
-    { reporter },
+    { reporter, env: { foo: 'not bar' } },
   );
 
   expect(mocks.mockConsoleError).not.toHaveBeenCalled();
@@ -106,8 +105,8 @@ test('choices', () => {
       choices: ['a', 'b'],
     }),
   };
-  expect(cleanEnv({ str: 'a' }, opts).str).toBe('a');
-  const res = expectError({ str: 'c' }, opts);
+  expect(cleanEnv(opts, { env: { str: 'a' } }).str).toBe('a');
+  const res = expectError(opts, { env: { str: 'c' } });
 
   expect(res.consoleMessage).toMatchInlineSnapshot(`
     "========================================
