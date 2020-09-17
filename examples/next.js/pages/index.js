@@ -15,9 +15,8 @@ export default function Home() {
           Welcome
         </h1>
 
-        <p>
-          <code>Public evironment: {<pre>{JSON.stringify(browserEnv, null, 4)}</pre>}</code>
-        </p>
+        <code>Public evironment: {<pre>{JSON.stringify(browserEnv, null, 4)}</pre>}</code>
+
 
         <p>Visit <a href="/api/hello">/api/hello</a> to see the server env vars</p>
       </main>
