@@ -16,10 +16,10 @@ Validate access to environment variables and parse them to the right type.
 
 Mostly based on the great project [envalid](https://github.com/af/envalid), but with some key differences:
 
-- Written in 100% TypeScript
-- Always strict - only get the props you have defined
-- Built for the browser and node.js
-- No dependencies - smaller bundle for browser/isomorphic apps
+- Written in **100% TypeScript**
+- Always **strict** - only access the variables you have defined
+- Built for node.js **and** the browser
+- **No dependencies** - smaller bundle for browser/isomorphic apps
 
 ---
 
