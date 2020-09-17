@@ -3,6 +3,6 @@
   "files.eol": "\n",
 
   "markdown.extension.toc.omittedFromToc": {
-    "README.md": ["# `env`safe 🔒"]
+    "README.md": ["## `env`safe 🔒"]
   }
 }

@@ -1,8 +1,8 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/c17614f0d80b810e47a6/maintainability)](https://codeclimate.com/github/KATT/envsafe/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/c17614f0d80b810e47a6/test_coverage)](https://codeclimate.com/github/KATT/envsafe/test_coverage)
 
-# `env`safe 🔒
+## `env`safe 🔒
 
-Validate access to environment variables and parse them to the right type.
+Validate access to environment variables and parse them to the right type. Makes sure you don't accidentally deploy apps with missing or invalid environment variables.
 
 ```
 ========================================
@@ -14,7 +14,7 @@ Validate access to environment variables and parse them to the right type.
 ========================================
 ```
 
-Mostly based on the great project [envalid](https://github.com/af/envalid), but with some key differences:
+Heavily inspired by the great project [envalid](https://github.com/af/envalid), but with some key differences:
 
 - Written in 100% TypeScript
 - **Always strict** - only access the variables you have defined
@@ -58,6 +58,8 @@ export const env = envsafe({
   }),
   PORT: port({
     devDefault: 3000,
+    desc: 'The port the app is running on',
+    example: 80,
   }),
   API_URL: url({
     devDefault: 'https://example.com/graphql',
