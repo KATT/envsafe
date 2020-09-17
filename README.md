@@ -16,8 +16,8 @@ Validate access to environment variables and parse them to the right type.
 
 Mostly based on the great project [envalid](https://github.com/af/envalid), but with some key differences:
 
-- Written in **100% TypeScript**
-- Always **strict** - only access the variables you have defined
+- Written in 100% TypeScript
+- **Always strict** - only access the variables you have defined
 - Built for node.js **and** the browser
 - **No dependencies** - tiny bundle for browser/isomorphic apps
 
