@@ -3,7 +3,6 @@
   "files.eol": "\n",
 
   "markdown.extension.toc.omittedFromToc": {
-    // Use a path relative to your workspace.
     "README.md": ["# `env`safe 🔒"]
   }
 }
