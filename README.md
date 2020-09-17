@@ -48,11 +48,14 @@ npm i envsafe --save
 ### Basic usage
 
 ```ts
-import { str, envsafe, url } from 'envsafe';
+import { str, envsafe, port, url } from 'envsafe';
 
 export const env = envsafe({
   NODE_ENV: str({
     devDefault: 'development',
+  }),
+  PORT: port({
+    devDefault: 3000,
   }),
   REACT_API_URL: url({
     devDefault: 'https://example.com/graphql',
