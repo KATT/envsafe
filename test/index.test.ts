@@ -35,7 +35,7 @@ test('custom parser error', () => {
       {
         foo: barParser({}),
       },
-      { env: { foo: 'not bar' }, },
+      { env: { foo: 'not bar' } },
     ),
   ).toThrowError();
 
@@ -76,7 +76,7 @@ test('custom reporter', () => {
     {
       foo: barParser({}),
     },
-    { reporter, env: { foo: 'not bar' }, },
+    { reporter, env: { foo: 'not bar' } },
   );
 
   expect(mocks.mockConsoleError).not.toHaveBeenCalled();

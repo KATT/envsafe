@@ -15,8 +15,8 @@ test('devDefault', () => {
       },
       {
         env: {},
-      }
-    )
+      },
+    ),
   ).toEqual({
     num: 1,
     str: 'str',
@@ -36,7 +36,7 @@ test('default', () => {
       },
       {
         env: {},
-      }
+      },
     ),
   ).toEqual({
     num: 1,
@@ -52,27 +52,21 @@ test('devDefault versus default presedence', () => {
     }),
   };
   expect(
-    cleanEnv(
-      opts,
-      {
-        env: {
-          NODE_ENV: 'development',
-        },
-      }
-    ),
+    cleanEnv(opts, {
+      env: {
+        NODE_ENV: 'development',
+      },
+    }),
   ).toEqual({
     str: 'devDefault',
   });
 
   expect(
-    cleanEnv(
-      opts,
-      {
-        env: {
-          NODE_ENV: 'production',
-        }
+    cleanEnv(opts, {
+      env: {
+        NODE_ENV: 'production',
       },
-    ),
+    }),
   ).toEqual({
     str: 'default',
   });

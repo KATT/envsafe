@@ -19,7 +19,9 @@ describe('num', () => {
     mockExitAndConsoleWasCalled();
 
     mockExitAndConsole();
-    expect(() => cleanEnv({ num: num() }, { env: { num: 'string' } })).toThrowError();
+    expect(() =>
+      cleanEnv({ num: num() }, { env: { num: 'string' } }),
+    ).toThrowError();
     mockExitAndConsoleWasCalled();
   });
 });
@@ -28,16 +30,15 @@ test('url', () => {
   const opts = { url: url() };
 
   expectError(opts, { env: {} });
-  expectError(
-    opts,
-    {
-      env: {
-        url: 'meep',
-      }
+  expectError(opts, {
+    env: {
+      url: 'meep',
     },
-  );
+  });
 
-  const parsed = cleanEnv(opts, { env: { url: 'https://example.com?query=test' } });
+  const parsed = cleanEnv(opts, {
+    env: { url: 'https://example.com?query=test' },
+  });
 
   expect(parsed.url).toMatchInlineSnapshot(`"https://example.com?query=test"`);
 });
