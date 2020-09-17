@@ -1,4 +1,4 @@
-import { envsafe, str } from '../../../'
+import { envsafe, str } from 'envsafe'
 import { browserEnv } from "./browserEnv";
 
 if (process.browser) {

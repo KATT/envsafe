@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "preinstall": "cd ../../ && yarn && yarn build"
+    "start": "next start"
   },
   "dependencies": {
     "envsafe": "^1.0.1",
