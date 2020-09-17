@@ -54,7 +54,7 @@ test('missing env', () => {
     .toThrowErrorMatchingInlineSnapshot(`
 "================================
 💨 Missing environment variables:
-    num: Missing value for num
+    num: Missing value
 ================================"
 `);
 
@@ -62,7 +62,7 @@ test('missing env', () => {
   expect(consoleMessage).toMatchInlineSnapshot(`
     "================================
     💨 Missing environment variables:
-        num: Missing value for num
+        num: Missing value
     ================================"
   `);
 });
