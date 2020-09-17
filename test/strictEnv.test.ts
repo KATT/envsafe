@@ -9,6 +9,7 @@ test('strictEnv', () => {
       env: {
         foo: 'bar',
       },
+      strict: true,
     },
   );
   expect(JSON.stringify(env)).toMatchInlineSnapshot(`"{\\"foo\\":\\"bar\\"}"`);
@@ -32,4 +33,21 @@ test('strictEnv', () => {
   expect(() => (env as any).__esModule).not.toThrow();
   expect(() => (env as any).then).not.toThrow();
   // expect(() => console.log(env)).not.toThrow()
+});
+
+test('non-strict (default behavior)', () => {
+  const env = cleanEnv(
+    {
+      foo: str(),
+    },
+    {
+      env: {
+        foo: 'bar',
+      },
+    },
+  );
+
+  expect(env.foo).toBe('bar');
+  expect(() => (env as any).boo).not.toThrow();
+  expect((env as any).boo).toBeUndefined();
 });
