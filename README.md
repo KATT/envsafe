@@ -57,20 +57,14 @@ export const env = envsafe({
   PORT: port({
     devDefault: 3000,
   }),
-  REACT_API_URL: url({
+  API_URL: url({
     devDefault: 'https://example.com/graphql',
   }),
-  REACT_APP_AUTH0_CLIENT_ID: str({
+  AUTH0_CLIENT_ID: str({
     devDefault: 'xxxxx',
   }),
-  REACT_APP_AUTH0_DOMAIN: str({
+  AUTH0_DOMAIN: str({
     devDefault: 'xxxxx.auth0.com',
-  }),
-  REACT_APP_SEGMENT_ID: str({
-    devDefault: 'xxxxx',
-  }),
-  REACT_APP_BUGSNAG_API_KEY: str({
-    default: 'xxxxx',
   }),
 });
 ```
