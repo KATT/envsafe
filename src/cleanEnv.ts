@@ -47,9 +47,11 @@ function getValueOrThrow<TValue>({
 }
 
 export function cleanEnv<TCleanEnv>(
-  env: Environment,
   validators: Validators<TCleanEnv>,
-  { reporter = defaultReporter }: CleanEnvOpts<TCleanEnv> = {},
+  {
+    reporter = defaultReporter,
+    env = process.env,
+  }: CleanEnvOpts<TCleanEnv> = {},
 ): Readonly<TCleanEnv> {
   const errors: Errors = {};
   const output = {} as TCleanEnv;
