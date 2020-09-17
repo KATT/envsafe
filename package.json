@@ -34,6 +34,7 @@
   "author": "KATT",
   "module": "dist/envsafe.esm.js",
   "devDependencies": {
+    "@types/webpack": "^4.41.22",
     "husky": "4.3.0",
     "np": "*",
     "tsdx": "0.13.3",
