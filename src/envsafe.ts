@@ -1,7 +1,7 @@
 import { InvalidEnvError, MissingEnvError } from './errors';
 import { defaultReporter } from './reporter';
 import {
-  envsafeOpts,
+  EnvsafeOpts,
   Environment,
   Errors,
   ValidatorSpec,
@@ -51,7 +51,7 @@ export function envsafe<TCleanEnv>(
   {
     reporter = defaultReporter,
     env = process.env,
-  }: envsafeOpts<TCleanEnv> = {},
+  }: EnvsafeOpts<TCleanEnv> = {},
 ): Readonly<TCleanEnv> {
   const errors: Errors = {};
   const output = {} as TCleanEnv;
