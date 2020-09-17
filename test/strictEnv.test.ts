@@ -3,22 +3,24 @@ import { str, strictEnv } from '../src';
 test('strictEnv', () => {
   const env = strictEnv(
     {
-      foo: 'bar',
+      foo: str(),
     },
     {
-      foo: str(),
-    }
+      env: {
+        foo: 'bar',
+      },
+    },
   );
   expect(JSON.stringify(env)).toMatchInlineSnapshot(`"{\\"foo\\":\\"bar\\"}"`);
   expect(env.foo).toBe('bar');
 
   expect(() => (env as any).no).toThrowErrorMatchingInlineSnapshot(
-    `"[envsafe] Env var not found: no"`
+    `"[envsafe] Env var not found: no"`,
   );
   expect(() => {
     (env as any).foo = 'nope';
   }).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot assign to read only property 'foo' of object '[object Object]'"`
+    `"Cannot assign to read only property 'foo' of object '[object Object]'"`,
   );
 
   expect(env.foo).toBe('bar');

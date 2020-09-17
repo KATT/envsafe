@@ -1,5 +1,5 @@
 import { cleanEnv } from './cleanEnv';
-import { CleanEnvOpts, Environment, Validators } from './types';
+import { CleanEnvOpts, Validators } from './types';
 
 const inspectables = [
   'length',
@@ -20,11 +20,11 @@ const inspectSymbolStrings = [
 ];
 
 export function strictEnv<TCleanEnv>(
-  env: Environment,
   validators: Validators<TCleanEnv>,
-  opts: CleanEnvOpts<TCleanEnv> = {}
+  opts: CleanEnvOpts<TCleanEnv> = {},
 ): Readonly<TCleanEnv> {
-  const envObj = cleanEnv(env, validators, opts);
+  const env = opts.env ?? process.env;
+  const envObj = cleanEnv(validators, { ...opts, env });
 
   return new Proxy(envObj, {
     get(_target, name) {
@@ -44,13 +44,13 @@ export function strictEnv<TCleanEnv>(
         if (env.hasOwnProperty(name)) {
           throw new ReferenceError(
             `[envsafe] Env var ${String(
-              name
-            )} was accessed but not validated. This var is set in the environment; please add an envsafe validator for it.`
+              name,
+            )} was accessed but not validated. This var is set in the environment; please add an envsafe validator for it.`,
           );
         }
 
         throw new ReferenceError(
-          `[envsafe] Env var not found: ${String(name)}`
+          `[envsafe] Env var not found: ${String(name)}`,
         );
       }
 
