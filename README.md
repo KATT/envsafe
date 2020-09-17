@@ -15,11 +15,7 @@ Works the same in the browser and in node.
 ```ts
 import { str, envsafe, url } from 'envsafe';
 
-<<<<<<< HEAD
-export const env = cleanEnv({
-=======
 export const env = envsafe({
->>>>>>> origin/next
   NODE_ENV: str({
     devDefault: 'development',
   }),
@@ -44,11 +40,7 @@ export const env = envsafe({
 It defaults to using `process.env` as a base for plucking the vars, but it can be overridden like this:
 
 ```ts
-<<<<<<< HEAD
-export const env = cleanEnv(
-=======
 export const env = envsafe(
->>>>>>> origin/next
   {
     ENV_VAR: str({
       devDefault: 'myvar',
@@ -60,8 +52,6 @@ export const env = envsafe(
 );
 ```
 
-<<<<<<< HEAD
-=======
 ## Built-in validators
 
 | Function  | return value | Description                                                                                      |
@@ -133,7 +123,6 @@ const env = envsafe(
 );
 ```
 
->>>>>>> origin/next
 # Contributing
 
 ## Running the project locally
