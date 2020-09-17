@@ -15,4 +15,7 @@ const env = cleanEnv({
 
 console.log('PORT', env.PORT);
 
-console.log('All variables', env);
+console.log('\n')
+
+console.log('All environment variables:')
+console.table(env);
