@@ -42,7 +42,7 @@ export type ReporterOpts<TCleanEnv> = {
 
 export type Reporter<TCleanEnv> = (opts: ReporterOpts<TCleanEnv>) => void;
 
-export type CleanEnvOpts<TCleanEnv> = {
+export type envsafeOpts<TCleanEnv> = {
   reporter?: Reporter<TCleanEnv>;
   env?: Environment;
 };

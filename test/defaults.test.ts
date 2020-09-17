@@ -1,10 +1,10 @@
-import { cleanEnv } from '../src';
+import { envsafe } from '../src';
 import { num, str } from '../src/validators';
 import { mockExitAndConsole, mockExitAndConsoleWasCalled } from './__helpers';
 
 test('devDefault', () => {
   expect(
-    cleanEnv(
+    envsafe(
       {
         num: num({
           devDefault: 1,
@@ -25,7 +25,7 @@ test('devDefault', () => {
 
 test('default', () => {
   expect(
-    cleanEnv(
+    envsafe(
       {
         num: num({
           default: 1,
@@ -52,7 +52,7 @@ test('devDefault versus default presedence', () => {
     }),
   };
   expect(
-    cleanEnv(opts, {
+    envsafe(opts, {
       env: {
         NODE_ENV: 'development',
       },
@@ -62,7 +62,7 @@ test('devDefault versus default presedence', () => {
   });
 
   expect(
-    cleanEnv(opts, {
+    envsafe(opts, {
       env: {
         NODE_ENV: 'production',
       },
@@ -74,7 +74,7 @@ test('devDefault versus default presedence', () => {
 
 test('parses default values', () => {
   expect(
-    cleanEnv(
+    envsafe(
       {
         num: num({
           default: 0,
@@ -84,7 +84,7 @@ test('parses default values', () => {
     ),
   ).toEqual({ num: 0 });
   expect(
-    cleanEnv(
+    envsafe(
       {
         num: num({
           default: '0' as any,
@@ -98,7 +98,7 @@ test('parses default values', () => {
 test('fails when default values are wrong', () => {
   mockExitAndConsole();
   expect(() =>
-    cleanEnv(
+    envsafe(
       {
         num: num({
           default: 'not a number' as any,
