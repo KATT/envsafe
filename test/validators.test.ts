@@ -32,7 +32,7 @@ test('url', () => {
     {
       url: 'meep',
     },
-    opts
+    opts,
   );
 
   const parsed = cleanEnv({ url: 'https://example.com?query=test' }, opts);
@@ -94,7 +94,7 @@ test('email', () => {
 
   expectError({ email: 'nah' }, opts);
   expect(cleanEnv({ email: 'test@example.com' }, opts).email).toBe(
-    'test@example.com'
+    'test@example.com',
   );
 });
 

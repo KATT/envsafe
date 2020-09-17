@@ -3,7 +3,7 @@ import { Spec, ValidatorSpec } from './types';
 const EMAIL_REGEX = /^[^@\s]+@[^@\s]+\.[^@\s]+$/; // intentionally non-exhaustive
 
 export function makeValidator<TValue>(
-  parser: (input: string | TValue) => TValue
+  parser: (input: string | TValue) => TValue,
 ): (spec?: Spec<TValue>) => ValidatorSpec<TValue> {
   return (spec = {}) => {
     return {
