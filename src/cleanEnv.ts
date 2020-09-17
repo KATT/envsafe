@@ -40,7 +40,7 @@ function getValueOrThrow<TValue>({
 
   if (validator.choices && !validator.choices.includes(value)) {
     throw new InvalidEnvError(
-      `Value "${value}" not in choices [${validator.choices}]`
+      `Value "${value}" not in choices [${validator.choices}]`,
     );
   }
 
@@ -50,7 +50,7 @@ function getValueOrThrow<TValue>({
 export function cleanEnv<TCleanEnv>(
   env: Environment,
   validators: Validators<TCleanEnv>,
-  { reporter = defaultReporter }: CleanEnvOpts<TCleanEnv> = {}
+  { reporter = defaultReporter }: CleanEnvOpts<TCleanEnv> = {},
 ): Readonly<TCleanEnv> {
   const errors: Errors = {};
   const output = {} as TCleanEnv;

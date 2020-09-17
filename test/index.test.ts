@@ -20,8 +20,8 @@ test('custom parser', () => {
       { foo: 'bar' },
       {
         foo: barParser({}),
-      }
-    )
+      },
+    ),
   ).toEqual({
     foo: 'bar',
   });
@@ -35,8 +35,8 @@ test('custom parser error', () => {
       { foo: 'not bar' },
       {
         foo: barParser({}),
-      }
-    )
+      },
+    ),
   ).toThrowError();
 
   const { consoleMessage } = mockExitAndConsoleWasCalled();
@@ -77,7 +77,7 @@ test('custom reporter', () => {
     {
       foo: barParser({}),
     },
-    { reporter }
+    { reporter },
   );
 
   expect(mocks.mockConsoleError).not.toHaveBeenCalled();
