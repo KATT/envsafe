@@ -1,7 +1,7 @@
-import { str, strictEnv } from '../src';
+import { cleanEnv, str } from '../src';
 
 test('strictEnv', () => {
-  const env = strictEnv(
+  const env = cleanEnv(
     {
       foo: str(),
     },
@@ -15,7 +15,7 @@ test('strictEnv', () => {
   expect(env.foo).toBe('bar');
 
   expect(() => (env as any).no).toThrowErrorMatchingInlineSnapshot(
-    `"[envsafe] Env var not found: no"`,
+    `"[envsafe] Env var \\"no\\" not found"`,
   );
   expect(() => {
     (env as any).foo = 'nope';

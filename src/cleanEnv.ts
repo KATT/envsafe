@@ -1,4 +1,5 @@
 import { InvalidEnvError, MissingEnvError } from './errors';
+import { freezeObject } from './freezeObject';
 import { defaultReporter } from './reporter';
 import {
   CleanEnvOpts,
@@ -70,5 +71,5 @@ export function cleanEnv<TCleanEnv>(
     reporter({ errors, output, env });
   }
 
-  return Object.freeze ? Object.freeze(output) : output;
+  return freezeObject(output, env);
 }
