@@ -30,6 +30,7 @@ Mostly based on the great project [envalid](https://github.com/af/envalid), but 
   - [Possible options](#possible-options)
 - [Custom validators/parsers](#custom-validatorsparsers)
 - [Error reporting](#error-reporting)
+- [Strict mode (recommended for JS-users)](#strict-mode-recommended-for-js-users)
 
 ## How to use
 
