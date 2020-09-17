@@ -1,0 +1,15 @@
+{
+  "name": "envsafe-playground",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "KATT",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "preinstall": "cd ../../ && yarn && yarn build"
+  },
+  "dependencies": {
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.2"
+  }
+}

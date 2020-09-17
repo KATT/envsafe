@@ -10,7 +10,7 @@ Mostly based on the great project [envalid](https://github.com/af/envalid), but 
 
 ## How to use
 
-Works the same in the browser and in node.
+Works the same in the browser and in node. See the [`./examples`](./examples)-folder for more examples.
 
 ```ts
 import { str, envsafe, url } from 'envsafe';
