@@ -15,7 +15,7 @@ Works the same in the browser and in node.
 ```ts
 import { str, cleanEnv, url } from 'envsafe';
 
-export const env = cleanEnv(process.env, {
+export const env = cleanEnv({
   NODE_ENV: str({
     devDefault: 'development',
   }),
@@ -36,6 +36,23 @@ export const env = cleanEnv(process.env, {
   }),
 });
 ```
+
+It defaults to using `process.env` as a base for plucking the vars, but it can be overridden like this:
+
+```ts
+export const env = cleanEnv(
+  {
+    ENV_VAR: str({
+      devDefault: 'myvar',
+    }),
+  },
+  {
+    env: window.__ENVIRONMENT__,
+  },
+);
+```
+
+# Contributing
 
 ## Running the project locally
 
