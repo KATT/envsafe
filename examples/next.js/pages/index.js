@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import { publicEnv } from '../utils/publicEnv';
+import { browserEnv } from '../utils/browserEnv';
 
 export default function Home() {
   return (
@@ -16,7 +16,7 @@ export default function Home() {
         </h1>
 
         <p>
-          <code>Public evironment: {<pre>{JSON.stringify(publicEnv, null, 4)}</pre>}</code>
+          <code>Public evironment: {<pre>{JSON.stringify(browserEnv, null, 4)}</pre>}</code>
         </p>
 
         <p>Visit <a href="/api/hello">/api/hello</a> to see the server env vars</p>

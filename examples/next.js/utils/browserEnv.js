@@ -1,7 +1,7 @@
-import { envsafe, str } from "../../../";
+import { envsafe, str } from '../../../';
 
 
-export const publicEnv = envsafe({
+export const browserEnv = envsafe({
   NEXT_PUBLIC_NO_DEFAULT: str({
     // because of how nextjs deals with transpiling public env vars 
     // we have to put it in as `input`
