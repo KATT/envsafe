@@ -7,6 +7,7 @@ const browserEnv = envsafe({
   NEXT_PUBLIC_NO_DEFAULT: str(),
   NEXT_PUBLIC_WITH_DEFAULT: str({
     devDefault: 'with default',
+    default: 'production default',
   }),
 }, {
   // As we're using plain JS, it's useful to use strict mode which prevents accessing undefined props
