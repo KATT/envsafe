@@ -9,6 +9,7 @@ const publicEnvVars = {
   }),
   NEXT_PUBLIC_WITH_DEFAULT: str({
     devDefault: 'with default',
+    input: process.env.NEXT_PUBLIC_WITH_DEFAULT,
   }),
 };
 
