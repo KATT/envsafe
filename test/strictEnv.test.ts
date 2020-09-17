@@ -26,8 +26,10 @@ test('strictEnv', () => {
   expect(env.foo).toBe('bar');
 
   expect(env.hasOwnProperty('foo')).toBe(true);
+  expect(env.hasOwnProperty('boo')).toBe(false);
 
   expect(() => (env as any).length).not.toThrow();
   expect(() => (env as any).__esModule).not.toThrow();
   expect(() => (env as any).then).not.toThrow();
+  // expect(() => console.log(env)).not.toThrow()
 });

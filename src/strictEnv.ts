@@ -6,17 +6,12 @@ const inspectables = [
   'inspect',
   'hasOwnProperty',
   'toJSON',
-  Symbol.toStringTag,
-  Symbol.iterator,
 
-  // For libs that use `then` checks to see if objects are Promises (see #74):
+  // For libs that use `then` checks to see if objects are Promises
+  // https://github.com/af/envalid/issues/74
   'then',
   // For usage with TypeScript esModuleInterop flag
   '__esModule',
-];
-const inspectSymbolStrings = [
-  'Symbol(util.inspect.custom)',
-  'Symbol(nodejs.util.inspect.custom)',
 ];
 
 export function strictEnv<TCleanEnv>(
@@ -25,17 +20,13 @@ export function strictEnv<TCleanEnv>(
 ): Readonly<TCleanEnv> {
   const env = opts.env ?? process.env;
   const envObj = cleanEnv(validators, { ...opts, env });
-
   return new Proxy(envObj, {
     get(_target, name) {
       // These checks are needed because calling console.log on a
       // proxy that throws crashes the entire process. This whitelists
       // the necessary properties for `console.log(envObj)`, `envObj.length`,
       // `envObj.hasOwnProperty('string')` to work.
-      if (
-        inspectables.includes(name as any) ||
-        inspectSymbolStrings.includes(name.toString())
-      ) {
+      if (typeof name !== 'string' || inspectables.includes(name)) {
         return (envObj as any)[name];
       }
 
