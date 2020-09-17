@@ -46,12 +46,15 @@ function getValueOrThrow<TValue>({
   return value;
 }
 
-export function envsafe<Tenvsafe>(
-  validators: Validators<Tenvsafe>,
-  { reporter = defaultReporter, env = process.env }: envsafeOpts<Tenvsafe> = {},
-): Readonly<Tenvsafe> {
+export function envsafe<TCleanEnv>(
+  validators: Validators<TCleanEnv>,
+  {
+    reporter = defaultReporter,
+    env = process.env,
+  }: envsafeOpts<TCleanEnv> = {},
+): Readonly<TCleanEnv> {
   const errors: Errors = {};
-  const output = {} as Tenvsafe;
+  const output = {} as TCleanEnv;
 
   for (const key in validators) {
     const validator = validators[key];
