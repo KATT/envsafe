@@ -1,4 +1,4 @@
-const { envValidators } = require('./utils/envValidators')
+const { envConfig } = require('./env.config')
 const { nextjsWebpackPlugin } = require('envsafe')
 
 module.exports = {

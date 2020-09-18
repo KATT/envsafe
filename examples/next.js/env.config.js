@@ -1,6 +1,6 @@
 const { envsafe, str, num } = require('envsafe');
 
-const envValidators = {
+const envConfig = {
   NEXT_PUBLIC_NO_DEFAULT: str(),
   NEXT_PUBLIC_WITH_DEFAULT: str({
     devDefault: 'with default',
@@ -9,5 +9,5 @@ const envValidators = {
 }
 
 module.exports = {
-  envValidators,
+  envConfig,
 }
