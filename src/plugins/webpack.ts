@@ -22,3 +22,26 @@ export function nextjsWebpackPlugin<
     'process.browserEnv': JSON.stringify(env),
   });
 }
+
+export function craWebpackPlugin<
+  TCleanEnv extends Readonly<Record<string, any>>
+>({
+  browserEnv,
+  webpack,
+}: {
+  browserEnv: TCleanEnv;
+  webpack: {
+    DefinePlugin: typeof DefinePlugin;
+  };
+}) {
+  const env = {} as TCleanEnv;
+  for (const key in browserEnv) {
+    if (key.startsWith('REACT_APP_')) {
+      env[key] = browserEnv[key];
+    }
+  }
+
+  return new webpack.DefinePlugin({
+    'process.browserEnv': JSON.stringify(env),
+  });
+}
