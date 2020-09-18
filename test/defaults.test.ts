@@ -1,6 +1,6 @@
 import { envsafe } from '../src';
 import { num, str } from '../src/validators';
-import { mockExitAndConsole, mockExitAndConsoleWasCalled } from './__helpers';
+import { mockAlertAndConsole, expectExitAndAlertWasCalled } from './__helpers';
 
 test('devDefault', () => {
   expect(
@@ -96,7 +96,7 @@ test('parses default values', () => {
 });
 
 test('fails when default values are wrong', () => {
-  mockExitAndConsole();
+  mockAlertAndConsole();
   expect(() =>
     envsafe(
       {
@@ -107,5 +107,5 @@ test('fails when default values are wrong', () => {
       { env: {} },
     ),
   ).toThrowError();
-  mockExitAndConsoleWasCalled();
+  expectExitAndAlertWasCalled();
 });

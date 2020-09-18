@@ -3,8 +3,8 @@ import { InvalidEnvError } from '../src/errors';
 import { makeValidator, num, str } from '../src/validators';
 import {
   expectError,
-  mockExitAndConsole,
-  mockExitAndConsoleWasCalled,
+  mockAlertAndConsole,
+  expectExitAndAlertWasCalled,
 } from './__helpers';
 
 const barParser = makeValidator<'bar'>(input => {
@@ -28,7 +28,7 @@ test('custom parser', () => {
 });
 
 test('custom parser error', () => {
-  mockExitAndConsole();
+  mockAlertAndConsole();
 
   expect(() =>
     envsafe(
@@ -39,7 +39,7 @@ test('custom parser error', () => {
     ),
   ).toThrowError();
 
-  const { consoleMessage } = mockExitAndConsoleWasCalled();
+  const { consoleMessage } = expectExitAndAlertWasCalled();
   expect(consoleMessage).toMatchInlineSnapshot(`
     "========================================
     ❌ Invalid environment variables:
@@ -49,7 +49,7 @@ test('custom parser error', () => {
 });
 
 test('missing env', () => {
-  mockExitAndConsole();
+  mockAlertAndConsole();
   expect(() => envsafe({ num: num() }, { env: {} }))
     .toThrowErrorMatchingInlineSnapshot(`
 "========================================
@@ -58,7 +58,7 @@ test('missing env', () => {
 ========================================"
 `);
 
-  const { consoleMessage } = mockExitAndConsoleWasCalled();
+  const { consoleMessage } = expectExitAndAlertWasCalled();
   expect(consoleMessage).toMatchInlineSnapshot(`
     "========================================
     💨 Missing environment variables:
@@ -70,7 +70,7 @@ test('missing env', () => {
 test('custom reporter', () => {
   const reporter = jest.fn();
 
-  const mocks = mockExitAndConsole();
+  const mocks = mockAlertAndConsole();
 
   envsafe(
     {
