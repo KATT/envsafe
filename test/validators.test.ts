@@ -2,8 +2,8 @@ import { envsafe } from '../src';
 import { json, num, port, url, bool, email, str } from '../src/validators';
 import {
   expectError,
-  mockExitAndConsole,
-  mockExitAndConsoleWasCalled,
+  mockAlertAndConsole,
+  expectExitAndAlertWasCalled,
 } from './__helpers';
 
 describe('num', () => {
@@ -14,15 +14,15 @@ describe('num', () => {
     });
   });
   test('sad', () => {
-    mockExitAndConsole();
+    mockAlertAndConsole();
     expect(() => envsafe({ num: num() }, { env: {} })).toThrowError();
-    mockExitAndConsoleWasCalled();
+    expectExitAndAlertWasCalled();
 
-    mockExitAndConsole();
+    mockAlertAndConsole();
     expect(() =>
       envsafe({ num: num() }, { env: { num: 'string' } }),
     ).toThrowError();
-    mockExitAndConsoleWasCalled();
+    expectExitAndAlertWasCalled();
   });
 });
 
