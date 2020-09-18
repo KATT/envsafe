@@ -38,9 +38,6 @@ export function defaultReporter<TCleanEnv>(opts: ReporterOpts<TCleanEnv>) {
   const text = defaultReporterText(opts);
   console.error(text);
 
-  if (typeof process !== 'undefined' && process?.exit) {
-    process.exit(1);
-  }
   if (typeof window !== 'undefined' && window?.alert) {
     window.alert(text);
   }
