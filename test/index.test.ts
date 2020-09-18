@@ -80,7 +80,6 @@ test('custom reporter', () => {
   );
 
   expect(mocks.mockConsoleError).not.toHaveBeenCalled();
-  expect(mocks.mockExit).not.toHaveBeenCalled();
 
   expect(reporter.mock.calls).toMatchInlineSnapshot(`
     Array [
