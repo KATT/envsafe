@@ -20,7 +20,7 @@ export function expectExitAndAlertWasCalled() {
 
   expect(consoleError).toHaveBeenCalledTimes(1);
 
-  const consoleMessage = consoleError!.mock.calls[0][0];
+  const consoleMessage: string = consoleError!.mock.calls[0][0];
 
   consoleError.mockClear();
   alert!.mockClear();
