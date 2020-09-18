@@ -142,8 +142,8 @@ By default the reporter will
 
 - Make a readable summary of your issues
 - `console.error`-log an error
-- Call `process.exit(1)` / `window.alert(text)`
-- Throw an error
+- `window.alert(text)`
+- Throws an error (will exit the process with a code `1` in node)
 
 Can be overridden by the `reporter`-property
 
