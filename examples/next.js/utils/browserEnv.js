@@ -1,12 +1,7 @@
-const { envsafe, str, num } = require('envsafe');
+const { envsafe } = require('envsafe');
+const { envValidators } = require('./envValidators');
 
-const browserEnv = envsafe({
-  NEXT_PUBLIC_NO_DEFAULT: str(),
-  NEXT_PUBLIC_WITH_DEFAULT: str({
-    devDefault: 'with default',
-    default: 'production default',
-  }),
-}, {
+const browserEnv = envsafe(envValidators, {
   strict: true,
   env: process.browserEnv,
 })

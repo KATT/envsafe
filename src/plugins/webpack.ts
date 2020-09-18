@@ -1,59 +1,25 @@
 import { DefinePlugin } from 'webpack';
+import { envsafe } from '../envsafe';
 import { InvalidEnvError } from '../errors';
-import { Errors } from '../types';
+import { Validators } from '../types';
 
-function validateKeysStartsWith<T extends Readonly<Record<string, any>>>(
-  prefix: string,
-  env: T,
+export function nextjsWebpackPlugin<TCleanEnv>(
+  validators: Validators<TCleanEnv>,
+  webpack: {
+    DefinePlugin: typeof DefinePlugin;
+  },
+  env = process.env,
 ) {
-  const errors: Errors = {};
-  for (const key in env) {
-    if (!key.startsWith(prefix)) {
-      errors[key] = new InvalidEnvError(
-        `Needs to be prefixed with "${prefix}"`,
-      );
-    }
-  }
-
-  if (Object.keys(errors).length > 0) {
-    throw new TypeError('Invalid'); // todo use reporter
-  }
-
-  return env;
-}
-
-export function nextjsWebpackPlugin<
-  TCleanEnv extends Readonly<Record<string, any>>
->({
-  browserEnv,
-  webpack,
-}: {
-  browserEnv: TCleanEnv;
-  webpack: {
-    DefinePlugin: typeof DefinePlugin;
-  };
-}) {
-  validateKeysStartsWith('NEXT_PUBLIC_', browserEnv);
-
-  return new webpack.DefinePlugin({
-    'process.browserEnv': JSON.stringify(browserEnv),
+  const cleanEnv = envsafe(validators, {
+    validateKey(key) {
+      if (!key.startsWith('NEXT_PUBLIC_')) {
+        throw new InvalidEnvError(`Not prefixed with "NEXT_PUBLIC_"`);
+      }
+      return true;
+    },
+    env,
   });
-}
-
-export function craWebpackPlugin<
-  TCleanEnv extends Readonly<Record<string, any>>
->({
-  browserEnv,
-  webpack,
-}: {
-  browserEnv: TCleanEnv;
-  webpack: {
-    DefinePlugin: typeof DefinePlugin;
-  };
-}) {
-  validateKeysStartsWith('REACT_APP_', browserEnv);
-
   return new webpack.DefinePlugin({
-    'process.browserEnv': JSON.stringify(browserEnv),
+    'process.envsafe': JSON.stringify(cleanEnv),
   });
 }

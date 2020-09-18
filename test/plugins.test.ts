@@ -1,85 +1,46 @@
-import { nextjsWebpackPlugin, craWebpackPlugin } from '../src/plugins/webpack';
-
-test('cra', () => {
-  const webpackSpy = jest.fn(args => args) as any;
-  expect(
-    craWebpackPlugin({
-      browserEnv: {},
-      webpack: {
-        DefinePlugin: webpackSpy,
-      },
-    }),
-  ).toMatchInlineSnapshot(`
-    Object {
-      "process.browserEnv": "{}",
-    }
-  `);
-  expect(
-    craWebpackPlugin({
-      browserEnv: {
-        REACT_APP_TEST: '',
-      },
-      webpack: {
-        DefinePlugin: webpackSpy,
-      },
-    }),
-  ).toMatchInlineSnapshot(`
-    Object {
-      "process.browserEnv": "{\\"REACT_APP_TEST\\":\\"\\"}",
-    }
-  `);
-
-  expect(() =>
-    craWebpackPlugin({
-      browserEnv: {
-        NEXT_PUBLIC_TEST: '',
-        WITHOUT_PREFIX: '',
-      },
-      webpack: {
-        DefinePlugin: webpackSpy,
-      },
-    }),
-  ).toThrowErrorMatchingInlineSnapshot(`"Invalid"`);
-});
+import { nextjsWebpackPlugin, num, str } from '../src/index';
+import { expectExitAndAlertWasCalled, mockAlertAndConsole } from './__helpers';
 
 test('nextjs', () => {
-  const webpackSpy = jest.fn(args => args) as any;
+  const webpackSpy = {
+    DefinePlugin: jest.fn(args => args) as any,
+  };
   expect(
-    nextjsWebpackPlugin({
-      browserEnv: {},
-      webpack: {
-        DefinePlugin: webpackSpy,
+    nextjsWebpackPlugin(
+      {
+        NEXT_PUBLIC_STR: str(),
+        NEXT_PUBLIC_NUM: num(),
       },
-    }),
+      webpackSpy,
+      {
+        NEXT_PUBLIC_STR: 'hello',
+        NEXT_PUBLIC_NUM: '1',
+      },
+    ),
   ).toMatchInlineSnapshot(`
     Object {
-      "process.browserEnv": "{}",
-    }
-  `);
-  expect(
-    nextjsWebpackPlugin({
-      browserEnv: {
-        NEXT_PUBLIC_TEST: '',
-      },
-      webpack: {
-        DefinePlugin: webpackSpy,
-      },
-    }),
-  ).toMatchInlineSnapshot(`
-    Object {
-      "process.browserEnv": "{\\"NEXT_PUBLIC_TEST\\":\\"\\"}",
+      "process.envsafe": "{\\"NEXT_PUBLIC_STR\\":\\"hello\\",\\"NEXT_PUBLIC_NUM\\":1}",
     }
   `);
 
+  mockAlertAndConsole();
   expect(() =>
-    nextjsWebpackPlugin({
-      browserEnv: {
-        NEXT_PUBLIC_TEST: '',
-        WITHOUT_PREFIX: '',
+    nextjsWebpackPlugin(
+      {
+        NEXT_PUBLIC_STR: str(),
+        WRONG_PREFIX_NUM: num(),
       },
-      webpack: {
-        DefinePlugin: webpackSpy,
+      webpackSpy,
+      {
+        NEXT_PUBLIC_STR: 'hello',
+        WRONG_PREFIX_NUM: '1',
       },
-    }),
-  ).toThrowErrorMatchingInlineSnapshot(`"Invalid"`);
+    ),
+  ).toThrowErrorMatchingInlineSnapshot(`
+"========================================
+❌ Invalid environment variables:
+    WRONG_PREFIX_NUM: Not prefixed with \\"NEXT_PUBLIC_\\"
+========================================"
+`);
+  expectExitAndAlertWasCalled();
 });
