@@ -3,7 +3,7 @@ import { envsafe } from '../src';
 let consoleError: jest.SpyInstance;
 let alert: jest.SpyInstance;
 
-export function mockExitAndConsole() {
+export function mockAlertAndConsole() {
   alert = jest.spyOn(window, 'alert').mockImplementationOnce((() => {
     // do nothing
   }) as any);
@@ -14,12 +14,13 @@ export function mockExitAndConsole() {
 
   return { mockConsoleError: consoleError };
 }
-export function mockExitAndConsoleWasCalled() {
+
+export function expectExitAndAlertWasCalled() {
   expect(alert).toHaveBeenCalledTimes(1);
 
   expect(consoleError).toHaveBeenCalledTimes(1);
 
-  const consoleMessage = consoleError!.mock.calls[0][0];
+  const consoleMessage: string = consoleError!.mock.calls[0][0];
 
   consoleError.mockClear();
   alert!.mockClear();
@@ -28,9 +29,9 @@ export function mockExitAndConsoleWasCalled() {
 }
 
 export function expectError(...args: Parameters<typeof envsafe>) {
-  mockExitAndConsole();
+  mockAlertAndConsole();
   expect(() => envsafe(...args)).toThrowError();
-  const res = mockExitAndConsoleWasCalled();
+  const res = expectExitAndAlertWasCalled();
 
   return res;
 }
