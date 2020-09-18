@@ -142,7 +142,7 @@ By default the reporter will
 
 - Make a readable summary of your issues
 - `console.error`-log an error
-- `window.alert(text)`
+- `window.alert()` with information about the missing envrionment variable if you're in the browser
 - Throws an error (will exit the process with a code `1` in node)
 
 Can be overridden by the `reporter`-property
