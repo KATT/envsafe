@@ -46,7 +46,7 @@ export type ReporterOpts<TCleanEnv> = {
 };
 
 export type ReporterFn<TCleanEnv> = (opts: ReporterOpts<TCleanEnv>) => void;
-
+export type KeyValidator = (key: string) => boolean;
 export type EnvsafeOpts<TCleanEnv> = {
   /**
    * Override the built-in reporter
@@ -63,6 +63,10 @@ export type EnvsafeOpts<TCleanEnv> = {
    * @default false
    */
   strict?: boolean;
+  /**
+   * Used in webpack plugins to validate that the key is in an allowlist of keys
+   */
+  validateKey?: (key: string) => true;
 };
 
 export type Validators<TCleanEnv> = {

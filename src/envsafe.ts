@@ -7,20 +7,27 @@ import {
   Errors,
   ValidatorSpec,
   Validators,
+  KeyValidator,
 } from './types';
 
 function getValueOrThrow<TValue>({
   env,
   validator,
   key,
+  validateKey,
 }: {
   env: Environment;
   validator: ValidatorSpec<TValue>;
   key: string;
+  validateKey?: KeyValidator;
 }): TValue {
   const usingDevDefault = env.NODE_ENV !== 'production';
 
   let raw: string | TValue | undefined = validator.input ?? env[key];
+
+  if (validateKey && !validateKey(key)) {
+    throw new InvalidEnvError(`Invalid environment key "${key}"`);
+  }
 
   if (
     raw === undefined &&
@@ -53,6 +60,7 @@ export function envsafe<TCleanEnv>(
     reporter = defaultReporter,
     env = process.env,
     strict = false,
+    validateKey,
   }: EnvsafeOpts<TCleanEnv> = {},
 ): Readonly<TCleanEnv> {
   const errors: Errors = {};
@@ -61,7 +69,7 @@ export function envsafe<TCleanEnv>(
   for (const key in validators) {
     const validator = validators[key];
     try {
-      const resolved = getValueOrThrow({ env, validator, key });
+      const resolved = getValueOrThrow({ env, validator, key, validateKey });
       output[key] = resolved;
     } catch (err) {
       errors[key] = err;
