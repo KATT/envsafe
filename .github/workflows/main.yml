@@ -2,44 +2,52 @@ name: CI
 on: [push, pull_request]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    name: Build, lint, & test lib
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node: ['10.x', '12.x', '14.x']
+        os: [ubuntu-latest, windows-latest]
 
     steps:
-      - name: Begin CI...
+      - name: Checkout repo
         uses: actions/checkout@v2
 
-      - name: Use Node 12
+      - name: Use Node ${{ matrix.node }}
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: ${{ matrix.node }}
 
-      - name: Use cached node_modules
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache node_modules
+        id: yarn-cache
         uses: actions/cache@v2
         with:
-          path: node_modules
-          key: nodeModules-${{ hashFiles('**/yarn.lock') }}
+          path: |
+            ${{ steps.yarn-cache-dir-path.outputs.dir }}
+            **/node_modules
+            /home/runner/.cache/Cypress
+            C:\Users\runneradmin\AppData\Local\Cypress\Cache
+            **/.next/cache
+          key: ${{ runner.os }}-${{ runner.node_version}}-yarn-v4-${{ hashFiles('yarn.lock') }}
           restore-keys: |
-            nodeModules-
+            ${{ runner.os }}-${{ runner.node_version}}-yarn-v4-
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile --silent --ignore-scripts
         env:
           CI: true
 
       - name: Lint
         run: yarn lint
-        env:
-          CI: true
 
       - name: Test
         run: yarn test --ci --coverage --maxWorkers=2
-        env:
-          CI: true
 
       - name: Build
         run: yarn build
-        env:
-          CI: true
 
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v2.6.0
@@ -49,3 +57,49 @@ jobs:
           coverageCommand: echo coverage
           coverageLocations: |
             ${{github.workspace}}/coverage/lcov.info:lcov
+
+  nextjs-example:
+    name: Build Next.js Example
+    defaults:
+      run:
+        working-directory: examples/next.js
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node: ['14.x']
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Use Node ${{ matrix.node }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache node_modules
+        id: yarn-cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ${{ steps.yarn-cache-dir-path.outputs.dir }}
+            **/node_modules
+            /home/runner/.cache/Cypress
+            C:\Users\runneradmin\AppData\Local\Cypress\Cache
+            **/.next/cache
+          key: ${{ runner.os }}-${{ runner.node_version}}-yarn-nextjs-example-v4-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ runner.node_version}}-yarn-nextjs-example-v4-
+
+      - name: Install
+        run: |
+          yarn --silent --frozen-lockfile
+        env:
+          CI: true
+
+      - name: Build
+        run: yarn build
