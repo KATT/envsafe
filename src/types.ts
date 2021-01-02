@@ -63,6 +63,11 @@ export type EnvsafeOpts<TCleanEnv> = {
    * @default false
    */
   strict?: boolean;
+  /**
+   * Use default values if receiving an empty string as input
+   * @default false
+   */
+  treatEmptyAsNull?: boolean;
 };
 
 export type Validators<TCleanEnv> = {
