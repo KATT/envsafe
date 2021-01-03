@@ -18,27 +18,25 @@ function getValueOrThrow<TValue>({
   validator: ValidatorSpec<TValue>;
   key: string;
 }): TValue {
-  let raw: string | TValue | undefined = validator.input ?? env[key];
-
   const usingDevDefault = env.NODE_ENV !== 'production';
 
-  const canUse = (r: typeof raw): r is string | TValue => {
-    let toReturn = r !== undefined;
+  let raw: string | TValue | undefined = validator.input ?? env[key];
+  if (!validator.allowEmpty && raw === '') {
+    // treat empty env vars as `undefined`
+    raw = undefined;
+  }
 
-    if (!validator.allowEmpty) {
-      return toReturn && r !== '';
-    }
-
-    return toReturn;
-  };
-
-  if (!canUse(raw) && usingDevDefault && validator.devDefault !== undefined) {
+  if (
+    raw === undefined &&
+    usingDevDefault &&
+    validator.devDefault !== undefined
+  ) {
     raw = validator.devDefault;
   }
-  if (!canUse(raw) && validator.default !== undefined) {
+  if (raw === undefined && validator.default !== undefined) {
     raw = validator.default;
   }
-  if (!canUse(raw)) {
+  if (raw === undefined) {
     throw new MissingEnvError(`Missing value`);
   }
 
@@ -67,12 +65,7 @@ export function envsafe<TCleanEnv>(
   for (const key in validators) {
     const validator = validators[key];
     try {
-      const resolved = getValueOrThrow({
-        env,
-        validator,
-        key,
-      });
-
+      const resolved = getValueOrThrow({ env, validator, key });
       output[key] = resolved;
     } catch (err) {
       errors[key] = err;
