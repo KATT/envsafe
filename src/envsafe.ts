@@ -21,6 +21,10 @@ function getValueOrThrow<TValue>({
   const usingDevDefault = env.NODE_ENV !== 'production';
 
   let raw: string | TValue | undefined = validator.input ?? env[key];
+  if (!validator.allowEmpty && raw === '') {
+    // treat empty env vars as `undefined`
+    raw = undefined;
+  }
 
   if (
     raw === undefined &&
