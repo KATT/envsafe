@@ -13,12 +13,12 @@ function getValueOrThrow<TValue>({
   env,
   validator,
   key,
-  treatEmptyAsNull,
+  allowEmptyStrings,
 }: {
   env: Environment;
   validator: ValidatorSpec<TValue>;
   key: string;
-  treatEmptyAsNull: boolean;
+  allowEmptyStrings: boolean;
 }): TValue {
   let raw: string | TValue | undefined = validator.input ?? env[key];
 
@@ -27,7 +27,7 @@ function getValueOrThrow<TValue>({
   const canUse = (r: typeof raw): r is string | TValue => {
     let toReturn = r !== undefined;
 
-    if (treatEmptyAsNull) {
+    if (!allowEmptyStrings) {
       return toReturn && r !== '';
     }
 
@@ -61,7 +61,7 @@ export function envsafe<TCleanEnv>(
     reporter = defaultReporter,
     env = process.env,
     strict = false,
-    treatEmptyAsNull = false,
+    allowEmptyStrings = false,
   }: EnvsafeOpts<TCleanEnv> = {},
 ): Readonly<TCleanEnv> {
   const errors: Errors = {};
@@ -74,7 +74,7 @@ export function envsafe<TCleanEnv>(
         env,
         validator,
         key,
-        treatEmptyAsNull,
+        allowEmptyStrings,
       });
 
       output[key] = resolved;
