@@ -1,6 +1,6 @@
 export interface Spec<TValue> {
   /**
-   * An Array that lists the admissable parsed values for the env var.
+   * An Array that lists the admissible parsed values for the env var.
    */
   choices?: ReadonlyArray<TValue>;
   /**
@@ -8,10 +8,16 @@ export interface Spec<TValue> {
    */
   default?: TValue;
   /**
-   * A fallback value to use only when NODE_ENV is not 'production'.
+   * A fallback value to use only when `NODE_ENV` is not `production`.
    * This is handy for env vars that are required for production environments, but optional for development and testing.
    */
   devDefault?: TValue;
+  /**
+   * Do not treat an empty string as a missing variable.
+   * It will then not be defaulted over and error if it isn't allowed.
+   * @default false
+   */
+  allowEmpty?: boolean;
   /**
    * A string that describes the env var.
    */
@@ -63,11 +69,6 @@ export type EnvsafeOpts<TCleanEnv> = {
    * @default false
    */
   strict?: boolean;
-  /**
-   * Do not treat empty strings as missing variables
-   * @default false
-   */
-  allowEmptyStrings?: boolean;
 };
 
 export type Validators<TCleanEnv> = {

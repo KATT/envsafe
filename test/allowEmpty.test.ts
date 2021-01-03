@@ -6,14 +6,17 @@ test('dont default over empty strings', () => {
       defaulted: str({
         default: 'default',
         devDefault: 'devDefault',
+        allowEmpty: true,
       }),
       empty: str({
         default: 'default',
         devDefault: 'devDefault',
+        allowEmpty: true,
       }),
       notDefaulted: str({
         default: 'default',
         devDefault: 'devDefault',
+        allowEmpty: true,
       }),
     },
     {
@@ -21,7 +24,6 @@ test('dont default over empty strings', () => {
         empty: '',
         notDefaulted: 'notDefault',
       },
-      allowEmptyStrings: true,
     },
   );
 
