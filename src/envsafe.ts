@@ -37,7 +37,11 @@ function getValueOrThrow<TValue>({
     raw = validator.default;
   }
   if (raw === undefined) {
-    throw new MissingEnvError(`Missing value`);
+    let errMessage = `Missing value`;
+    if (!validator.allowEmpty) {
+      errMessage += ' or empty string';
+    }
+    throw new MissingEnvError(errMessage);
   }
 
   const value = validator._parse(raw);

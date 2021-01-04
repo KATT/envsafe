@@ -9,8 +9,8 @@ Validate access to environment variables and parse them to the right type. Makes
 ❌ Invalid environment variables:
     API_URL: Invalid url input: "http//example.com/graphql"
 💨 Missing environment variables:
-    MY_VAR: Missing value
-    PORT: Missing value
+    MY_VAR: Missing value or empty string
+    PORT: Missing value or empty string
 ========================================
 ```
 
