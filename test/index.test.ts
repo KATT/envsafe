@@ -54,17 +54,17 @@ test('missing env', () => {
     .toThrowErrorMatchingInlineSnapshot(`
 "========================================
 💨 Missing environment variables:
-    num: Missing value
+    num: Missing value or empty string
 ========================================"
 `);
 
   const { consoleMessage } = expectExitAndAlertWasCalled();
   expect(consoleMessage).toMatchInlineSnapshot(`
-    "========================================
-    💨 Missing environment variables:
-        num: Missing value
-    ========================================"
-  `);
+"========================================
+💨 Missing environment variables:
+    num: Missing value or empty string
+========================================"
+`);
 });
 
 test('custom reporter', () => {
