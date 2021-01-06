@@ -44,7 +44,7 @@ test('default', () => {
   });
 });
 
-test('devDefault versus default presedence', () => {
+test('devDefault versus default precedence', () => {
   const opts = {
     str: str({
       default: 'default',
