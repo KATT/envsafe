@@ -19,24 +19,30 @@ function getValueOrThrow<TValue>({
   key: string;
 }): TValue {
   const usingDevDefault = env.NODE_ENV !== 'production';
+  const { allowEmpty = false } = validator;
 
-  let raw: string | TValue | undefined = validator.input ?? env[key];
-  if (!validator.allowEmpty && raw === '') {
-    // treat empty env vars as `undefined`
-    raw = undefined;
+  /**
+   * Function to see if the value isn't empty or undefined
+   */
+  function isSet(value: string | TValue | undefined): value is string | TValue {
+    if (!allowEmpty) {
+      return value !== undefined && value !== '';
+    }
+    return value !== undefined;
   }
 
-  if (
-    raw === undefined &&
-    usingDevDefault &&
-    validator.devDefault !== undefined
-  ) {
-    raw = validator.devDefault;
+  let input: string | TValue | undefined = isSet(validator.input)
+    ? validator.input
+    : env[key];
+
+  if (usingDevDefault && !isSet(input) && isSet(validator.devDefault)) {
+    input = validator.devDefault;
   }
-  if (raw === undefined && validator.default !== undefined) {
-    raw = validator.default;
+  if (!isSet(input) && isSet(validator.default)) {
+    input = validator.default;
   }
-  if (raw === undefined) {
+
+  if (!isSet(input)) {
     let errMessage = `Missing value`;
     if (!validator.allowEmpty) {
       errMessage += ' or empty string';
@@ -44,15 +50,15 @@ function getValueOrThrow<TValue>({
     throw new MissingEnvError(errMessage);
   }
 
-  const value = validator._parse(raw);
+  const output = validator._parse(input);
 
-  if (validator.choices && !validator.choices.includes(value)) {
+  if (validator.choices && !validator.choices.includes(output)) {
     throw new InvalidEnvError(
-      `Value "${value}" not in choices [${validator.choices}]`,
+      `Value "${output}" not in choices [${validator.choices}]`,
     );
   }
 
-  return value;
+  return output;
 }
 
 export function envsafe<TCleanEnv>(
