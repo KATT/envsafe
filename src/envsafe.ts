@@ -24,7 +24,7 @@ function getValueOrThrow<TValue>({
   /**
    * Function to see if the value isn't empty or undefined
    */
-  function isSet(value: string | TValue | undefined) {
+  function isSet(value: string | TValue | undefined): value is string | TValue {
     if (!allowEmpty) {
       return value !== undefined && value !== '';
     }
@@ -42,7 +42,7 @@ function getValueOrThrow<TValue>({
     input = validator.default;
   }
 
-  if (!isSet(input) || input === undefined) {
+  if (!isSet(input)) {
     let errMessage = `Missing value`;
     if (!validator.allowEmpty) {
       errMessage += ' or empty string';
