@@ -32,6 +32,10 @@
   },
   "name": "envsafe",
   "author": "KATT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KATT/envsafe.git"
+  },
   "module": "dist/envsafe.esm.js",
   "devDependencies": {
     "husky": "4.3.7",
