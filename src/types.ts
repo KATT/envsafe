@@ -45,7 +45,15 @@ export type Environment = Record<string, string | undefined>;
 
 export type Errors = Record<string, Error>;
 
-export type ReporterOpts<TCleanEnv> = {
+type IgnoreErrorsOption = {
+  /**
+   * Skip throwing errors when invalid configuration is found, useful in tests where not all runtime configuration is necessary
+   * @default false
+   */
+  ignoreErrors?: boolean;
+};
+
+export type ReporterOpts<TCleanEnv> = IgnoreErrorsOption & {
   env: Environment;
   output: Partial<TCleanEnv>;
   errors: Errors;
@@ -53,7 +61,7 @@ export type ReporterOpts<TCleanEnv> = {
 
 export type ReporterFn<TCleanEnv> = (opts: ReporterOpts<TCleanEnv>) => void;
 
-export type EnvsafeOpts<TCleanEnv> = {
+export type EnvsafeOpts<TCleanEnv> = IgnoreErrorsOption & {
   /**
    * Override the built-in reporter
    * @default `defaultReporter`

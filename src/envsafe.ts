@@ -67,6 +67,7 @@ export function envsafe<TCleanEnv>(
     reporter = defaultReporter,
     env = process.env,
     strict = false,
+    ignoreErrors = false,
   }: EnvsafeOpts<TCleanEnv> = {},
 ): Readonly<TCleanEnv> {
   const errors: Errors = {};
@@ -83,7 +84,7 @@ export function envsafe<TCleanEnv>(
   }
 
   if (Object.keys(errors).length) {
-    reporter({ errors, output, env });
+    reporter({ errors, output, env, ignoreErrors });
   }
 
   return strict ? freezeObject(output, env) : output;
