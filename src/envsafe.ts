@@ -78,7 +78,7 @@ export function envsafe<TCleanEnv>(
       const resolved = getValueOrThrow({ env, validator, key });
       output[key] = resolved;
     } catch (err) {
-      errors[key] = err;
+      errors[key] = err as Error;
     }
   }
 
