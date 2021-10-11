@@ -91,6 +91,7 @@ test('custom reporter', () => {
           "errors": Object {
             "foo": [TypeError: Expected 'not bar' to be 'bar'],
           },
+          "ignoreErrors": false,
           "output": Object {},
         },
       ],
