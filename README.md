@@ -143,10 +143,10 @@ By default the reporter will
 
 - Make a readable summary of your issues
 - `console.error`-log an error
-- `window.alert()` with information about the missing envrionment variable if you're in the browser
+- `window.alert()` with information about the missing environment variable if you're in the browser
 - Throws an error (will exit the process with a code `1` in node)
 
-Can be overridden by the `reporter`-property
+Can be disabled with `ignoreErrors` option or customized with the `reporter` option
 
 ```ts
 const env = envsafe(
@@ -154,6 +154,7 @@ const env = envsafe(
     MY_VAR: str(),
   },
   {
+    ignoreErrors: process.env.NODE_ENV === "test",
     reporter({ errors, output, env }) {
       // do stuff
     },
