@@ -20,9 +20,7 @@ test('strictEnv', () => {
   );
   expect(() => {
     (env as any).foo = 'nope';
-  }).toThrowErrorMatchingInlineSnapshot(
-    `"Cannot assign to read only property 'foo' of object '[object Object]'"`,
-  );
+  }).toThrowError(/Cannot assign to read only property 'foo' of object/);
 
   expect(env.foo).toBe('bar');
 
