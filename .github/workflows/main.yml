@@ -1,13 +1,20 @@
 name: CI
-on: [push, pull_request]
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
 jobs:
   build:
-    timeout-minutes: 5
     name: Build, lint, & test lib
+
+    continue-on-error: true
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
     strategy:
       matrix:
-        node: ['10.x', '12.x', '14.x']
+        node: ['10', '12', '14', '16']
         os: [ubuntu-latest, windows-latest]
 
     steps:
@@ -15,37 +22,19 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Use Node ${{ matrix.node }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
-
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - name: Cache node_modules
-        id: yarn-cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ${{ steps.yarn-cache-dir-path.outputs.dir }}
-            **/node_modules
-            /home/runner/.cache/Cypress
-            C:\Users\runneradmin\AppData\Local\Cypress\Cache
-            **/.next/cache
-          key: ${{ runner.os }}-${{ runner.node_version}}-yarn-v4-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ runner.node_version}}-yarn-v4-
+          cache: yarn
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --silent --ignore-scripts
-        env:
-          CI: true
+        run: yarn install --frozen-lockfile --ignore-scripts
 
       - name: Lint
         run: yarn lint
 
       - name: Test
-        run: yarn test --ci --coverage --maxWorkers=2
+        run: yarn test --coverage --maxWorkers=2
 
       - name: Build
         run: yarn build
@@ -67,7 +56,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node: ['14.x']
+        node: ['14']
         os: [ubuntu-latest]
 
     steps:
@@ -75,32 +64,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Use Node ${{ matrix.node }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
-
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - name: Cache node_modules
-        id: yarn-cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ${{ steps.yarn-cache-dir-path.outputs.dir }}
-            **/node_modules
-            /home/runner/.cache/Cypress
-            C:\Users\runneradmin\AppData\Local\Cypress\Cache
-            **/.next/cache
-          key: ${{ runner.os }}-${{ runner.node_version}}-yarn-nextjs-example-v4-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ runner.node_version}}-yarn-nextjs-example-v4-
+          cache: yarn
 
       - name: Install
-        run: |
-          yarn --silent --frozen-lockfile
-        env:
-          CI: true
+        run: yarn --frozen-lockfile
 
       - name: Build
         run: yarn build
