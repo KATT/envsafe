@@ -10,7 +10,7 @@
     "preinstall": "cd ../../ && yarn && yarn build"
   },
   "dependencies": {
-    "next": "11.1.3",
+    "next": "12.1.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "envsafe": "../../"
