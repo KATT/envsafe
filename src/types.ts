@@ -35,6 +35,10 @@ export interface Spec<TValue> {
    * Can be useful on the front-end when webpack makes the vars disappear
    */
   input?: string | undefined;
+  /**
+   * Determine whether to use only the `input` values and avoid runtime environment variable reference.
+   */
+  inputOnly?: boolean;
 }
 
 export interface ValidatorSpec<TValue> extends Spec<TValue> {
@@ -69,6 +73,11 @@ export type EnvsafeOpts<TCleanEnv> = {
    * @default false
    */
   strict?: boolean;
+  /**
+   * Determine whether to use only the `input` values and avoid runtime environment variable reference.
+   * @default false
+   */
+  inputOnly?: boolean;
 };
 
 export type Validators<TCleanEnv> = {
