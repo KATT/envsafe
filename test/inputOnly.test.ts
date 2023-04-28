@@ -66,3 +66,31 @@ test('input value is undefined and inputOnly is true', () => {
     ========================================"
   `);
 });
+
+test('input value is undefined and inputOnly (global option) is true', () => {
+  mockAlertAndConsole();
+
+  expect(() =>
+    envsafe(
+      {
+        str: str({
+          input: undefined,
+        }),
+      },
+      {
+        env: {
+          str: 'bar',
+        },
+        inputOnly: true,
+      },
+    ),
+  ).toThrowError();
+
+  const { consoleMessage } = expectExitAndAlertWasCalled();
+  expect(consoleMessage).toMatchInlineSnapshot(`
+    "========================================
+    💨 Missing environment variables:
+        str: Missing value or empty string
+    ========================================"
+  `);
+});
