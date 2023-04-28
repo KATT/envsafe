@@ -39,7 +39,7 @@ test('input with undefined', () => {
   });
 });
 
-test('input with inputOnly option', () => {
+test('input value is undefined and inputOnly is true', () => {
   mockAlertAndConsole();
 
   expect(() =>
