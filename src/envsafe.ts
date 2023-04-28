@@ -33,7 +33,9 @@ function getValueOrThrow<TValue>({
 
   let input: string | TValue | undefined = isSet(validator.input)
     ? validator.input
-    : env[key];
+    : !validator.inputOnly
+    ? env[key]
+    : undefined;
 
   if (usingDevDefault && !isSet(input) && isSet(validator.devDefault)) {
     input = validator.devDefault;
@@ -67,13 +69,17 @@ export function envsafe<TCleanEnv>(
     reporter = defaultReporter,
     env = process.env,
     strict = false,
+    inputOnly = false,
   }: EnvsafeOpts<TCleanEnv> = {},
 ): Readonly<TCleanEnv> {
   const errors: Errors = {};
   const output = {} as TCleanEnv;
 
   for (const key in validators) {
-    const validator = validators[key];
+    const validator = {
+      inputOnly,
+      ...validators[key],
+    };
     try {
       const resolved = getValueOrThrow({ env, validator, key });
       output[key] = resolved;
